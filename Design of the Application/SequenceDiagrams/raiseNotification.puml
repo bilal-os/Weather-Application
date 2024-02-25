@@ -1,0 +1,39 @@
+@startuml
+title RaiseNotification Scenario
+autonumber
+
+Participant NotificationManager
+Participant CacheManager
+Participant TerminalInterface
+
+loop everyday
+
+activate NotificationManager
+NotificationManager -> NotificationManager: verifyEnableStatus()
+
+
+opt notificationEnabled
+    NotificationManager -> CacheManager: fetchWeatherReport(locationDetails)
+    activate CacheManager
+    CacheManager --> NotificationManager: WeatherReport
+    deactivate CacheManager
+    NotificationManager -> CacheManager: fetchAirReport(locationDetails)
+    activate CacheManager
+    CacheManager --> NotificationManager: AirReport
+    deactivate CacheManager
+    NotificationManager -> NotificationManager: weatherAssessment(AirReport)
+    NotificationManager -> NotificationManager: airAssessment(AirReport)
+par     
+    opt weatherStatus==critical
+        NotificationManager -> TerminalInterface: raiseNotification(notificationDetails)
+        activate TerminalInterface
+    end
+else
+    opt airStatus==critical
+        NotificationManager -> TerminalInterface: raiseNotification(notificationDetails)
+        deactivate TerminalInterface
+    end
+end
+end
+
+end

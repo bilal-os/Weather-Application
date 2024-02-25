@@ -1,0 +1,95 @@
+@startuml
+title CurrentWeather Scenario
+autonumber
+actor User
+participant TerminalInterface
+participant LocationManager
+participant GeoCoding
+participant DataManager
+participant CacheManager
+participant WeatherService
+
+scale 2
+User -> TerminalInterface: showCurrentWeather()
+activate User
+TerminalInterface --> User: Enter Location
+activate TerminalInterface
+User -> TerminalInterface: location
+
+loop until validEntry
+
+    alt locationIsCity
+        TerminalInterface -> LocationManager: convertToCoordinates()
+        activate LocationManager
+        LocationManager -> GeoCoding: directGeoCoding(location: string)
+        activate GeoCoding
+        GeoCoding --> LocationManager: locationDetails
+        deactivate GeoCoding
+       
+        alt errorFetching
+             LocationManager -> TerminalInterface: "Error: Invalid location"
+             TerminalInterface -> User: "Enter Location Again"
+             
+        else
+
+        LocationManager -> LocationManager: extractCoordiantes()
+        LocationManager --> TerminalInterface: coordinates
+        deactivate LocationManager
+        
+        end
+
+    else locationIsCoordinates
+        TerminalInterface -> LocationManager: verifyCoordinates(latitude,longitude)
+        activate LocationManager
+        LocationManager -> GeoCoding: reverseGeoCoding(latitude,longitude)
+        activate GeoCoding
+        GeoCoding --> LocationManager: locationDetails
+        deactivate GeoCoding
+        
+        alt errorFetching
+             LocationManager -> TerminalInterface: "Error: Invalid location"
+             TerminalInterface -> User: "Enter Location Again"
+             
+        else        
+
+        LocationManager -> LocationManager: extractCoordiantes()
+        deactivate GeoCoding
+        LocationManager --> TerminalInterface: coordinates
+        deactivate LocationManager
+
+        end    
+            
+    end
+
+end
+
+TerminalInterface -> DataManager: fetchWeatherReport(latitude,longitude)
+activate DataManager
+DataManager -> CacheManager: fetchWeatherReport(latitude,longitude)
+activate CacheManager
+
+CacheManager --> DataManager: weatherReport
+deactivate CacheManager
+
+opt ReportNotAvailable
+     DataManager -> WeatherService: fetchWeatherReport(latitude,longitude)
+     activate WeatherService
+     WeatherService --> DataManager: weatherReport
+     deactivate WeatherService
+     DataManager -> CacheManager: storeWeatherReport(latitude,longitude,WeatherReport)
+     activate CacheManager
+     CacheManager --> DataManager: "dataStored"
+     deactivate CacheManager
+end
+
+DataManager --> TerminalInterface: weatherReport
+deactivate DataManager
+
+
+ref over TerminalInterface
+    RenderWeatherReport
+end ref
+
+
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor User as U
+actor NotificationSystem as NS
+actor CacheUpdation as CU
+actor Terminal as T
+
+rectangle "Weather System" {
+    usecase "Add location with latitude and longitude" as AddLocationLL
+    usecase "Add location with city, country" as AddLocationCC
+    usecase "See current weather conditions" as SeeWeather
+    usecase "Enable notification" as EnableNotification
+    usecase "Raise notification" as RaiseNotification
+    usecase "Update cache" as UpdateCache
+    usecase "See air pollution data" as SeeAirPollution
+    usecase "Render weather data" as RenderWeatherData
+    usecase "Render air data" as RenderAirData
+    
+    U --> AddLocationLL
+    U --> AddLocationCC
+    U --> SeeWeather
+    U --> EnableNotification
+    U --> RaiseNotification
+    CU --> UpdateCache
+    NS --> RaiseNotification
+    NS --> EnableNotification
+    T --> RenderWeatherData
+    T --> RenderAirData
+    U --> SeeAirPollution
+}
+

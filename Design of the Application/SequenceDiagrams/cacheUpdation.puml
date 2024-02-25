@@ -1,0 +1,52 @@
+@startuml
+title CacheUpdation Scenario
+autonumber
+
+Participant CacheUpdation
+Participant CacheManager
+Participant DataManager
+Participant WeatherService
+
+loop everyday
+    activate CacheUpdation
+    CacheUpdation -> CacheUpdation:periodicUpdation()
+    CacheUpdation -> CacheManager: fetchStoredLocations()
+    activate CacheManager
+    CacheManager --> CacheUpdation: storedLocations
+    deactivate CacheManager
+    CacheUpdation -> CacheUpdation: extractCoordinates(storedLocations)
+    CacheUpdation -> DataManager: fetchWeatherReports(locationsCoordinates)
+    activate DataManager
+    loop numberOfCoordinates
+        DataManager -> WeatherService: fetchWeatherReport(latitude,longitude)
+        activate WeatherService
+        WeatherService --> DataManager: weatherReport
+        deactivate WeatherService
+    end
+    DataManager --> CacheUpdation: weatherReports
+    deactivate DataManager
+
+    CacheUpdation -> DataManager: fetchAirReports(locationsCoordinates)
+    activate DataManager
+    loop numberOfCoordinates
+        DataManager -> WeatherService: fetchAirReport(latitude,longitude)
+        activate WeatherService
+        WeatherService --> DataManager: airReport
+        deactivate WeatherService
+    end
+    DataManager --> CacheUpdation: airReports
+    deactivate DataManager
+
+    CacheUpdation -> CacheManager: overWriteWeatherReports(locationsCoordinates,weatherReports)
+    activate CacheManager
+    CacheManager --> CacheUpdation: "Weather Reports OverWritten"
+    deactivate CacheManager
+
+    CacheUpdation -> CacheManager: overWriteAirReports(locationsCoordinates,weatherReports)
+    activate CacheManager
+    CacheManager --> CacheUpdation: "Air Reports OverWritten"
+    deactivate CacheManager
+
+    deactivate CacheUpdation
+
+end

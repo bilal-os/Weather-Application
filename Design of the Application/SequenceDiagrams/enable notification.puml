@@ -1,0 +1,32 @@
+@startuml
+title Enable Notification Scenario
+autonumber
+actor User
+participant TerminalInterface
+participant LocationManager
+participant GeoCoding
+participant NotificationManager
+
+User -> TerminalInterface: enableNotification(true)
+TerminalInterface --> User: currentLocationStatus
+activate User
+activate TerminalInterface
+
+opt currentLocationNotSet
+   
+   ref over User, TerminalInterface, LocationManager, GeoCoding
+    Addlocation scenario
+   end ref
+
+    TerminalInterface -> TerminalInterface: setCurrentLocation(locationDetails)
+
+end
+
+TerminalInterface -> NotificationManager: enableNotification(true,currentLocation)
+activate NotificationManager
+NotificationManager -> TerminalInterface: "NotificationEnabled"
+deactivate NotificationManager
+deactivate TerminalInterface
+
+
+

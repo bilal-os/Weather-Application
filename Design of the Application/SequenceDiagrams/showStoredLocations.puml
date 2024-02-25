@@ -1,0 +1,56 @@
+@startuml
+title show stored locations Scenario
+autonumber
+
+actor User
+participant TerminalInterface
+participant LocationManager
+participant DataManager
+participant CacheManager
+
+User -> TerminalInterface: showStoredLocatios()
+activate TerminalInterface
+activate User
+
+
+opt StoredLocationsData==Empty
+TerminalInterface -> LocationManager: fetchStoredLocations()
+activate LocationManager
+LocationManager -> CacheManager: fetchStoredLocations()
+activate CacheManager
+CacheManager --> LocationManager: storedLocations
+deactivate CacheManager
+loop numberOfLocations
+LocationManager -> LocationManager: extractCoordinates(locationDetails)
+end
+
+LocationManager -> DataManager: fetchWeatherReports(locationsCoordinates)
+activate DataManager
+loop numberOfCoordiantes
+DataManager -> CacheManager: fetchWeatherReport(locationCoordinates)
+activate CacheManager
+CacheManager -> DataManager: weatherReport
+deactivate CacheManager
+end
+DataManager --> LocationManager: weatherReports
+deactivate DataManager
+LocationManager -> LocationManager: summarizeWeatherReports()
+
+LocationManager -> DataManager: fetchAirReports(locationsCoordinates)
+activate DataManager
+loop numberOfCoordiantes
+DataManager -> CacheManager: fetchAirReport(locationCoordinates)
+activate CacheManager
+CacheManager -> DataManager: airReport
+deactivate CacheManager
+end
+DataManager --> LocationManager: airReports
+deactivate DataManager
+LocationManager -> LocationManager: summarizeAirReports()
+
+LocationManager -> LocationManager: concatenateLocationsAndReports()
+LocationManager --> TerminalInterface: locationsAndSummarizedReports
+deactivate LocationManager
+
+
+
