@@ -1,0 +1,13 @@
+@startuml
+title Render Weather Report
+autonumber
+actor User
+participant TerminalInterface
+participant CurrentWeatherWindow
+participant WeatherData
+
+TerminalInterface -> CurrentWeatherWindow: ShowCurrentWeather(weatherReport)
+activate TerminalInterface
+activate CurrentWeatherWindow
+CurrentWeatherWindow -> WeatherData: formatData(weatherReport)
+CurrentWeatherWindow -> CurrentWeatherWindow: showCurrentWeather()

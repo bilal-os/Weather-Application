@@ -1,5 +1,5 @@
 @startuml
-title show stored locations Scenario
+title Show Stored Locations Scenario
 autonumber
 
 actor User
@@ -19,38 +19,30 @@ activate LocationManager
 LocationManager -> CacheManager: fetchStoredLocations()
 activate CacheManager
 CacheManager --> LocationManager: storedLocations
+LocationManager --> TerminalInterface: storedLocations
 deactivate CacheManager
-loop numberOfLocations
-LocationManager -> LocationManager: extractCoordinates(locationDetails)
-end
-
-LocationManager -> DataManager: fetchWeatherReports(locationsCoordinates)
-activate DataManager
-loop numberOfCoordiantes
-DataManager -> CacheManager: fetchWeatherReport(locationCoordinates)
-activate CacheManager
-CacheManager -> DataManager: weatherReport
-deactivate CacheManager
-end
-DataManager --> LocationManager: weatherReports
-deactivate DataManager
-LocationManager -> LocationManager: summarizeWeatherReports()
-
-LocationManager -> DataManager: fetchAirReports(locationsCoordinates)
-activate DataManager
-loop numberOfCoordiantes
-DataManager -> CacheManager: fetchAirReport(locationCoordinates)
-activate CacheManager
-CacheManager -> DataManager: airReport
-deactivate CacheManager
-end
-DataManager --> LocationManager: airReports
-deactivate DataManager
-LocationManager -> LocationManager: summarizeAirReports()
-
-LocationManager -> LocationManager: concatenateLocationsAndReports()
-LocationManager --> TerminalInterface: locationsAndSummarizedReports
 deactivate LocationManager
+end
+TerminalInterface -> TerminalInterface: showStoredLocations()
+TerminalInterface --> User: "Select Option"
+
+alt showCurrentWeather
+    
+ref over TerminalInterface,LocationManager,DataManager,CacheManager
+    showCurrentWeather
+end ref
+
+else showAirReport
+
+ref over TerminalInterface,LocationManager,DataManager,CacheManager
+    showAirReport
+end ref
+
+else showForecast
+
+ref over TerminalInterface,LocationManager,DataManager,CacheManager
+    showForecast
+end ref
 
 
-
+end

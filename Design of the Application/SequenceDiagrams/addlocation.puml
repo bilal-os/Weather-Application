@@ -36,6 +36,11 @@ loop until validEntry
              
         else
 
+        LocationManager -> CacheManager: storeLocation(locationDetails)
+        activate CacheManager
+        CacheManager --> LocationManager: "Location Stored"
+        deactivate CacheManager     
+
         LocationManager -> LocationManager: extractCoordiantes()
         LocationManager --> TerminalInterface: coordinates
         deactivate LocationManager
@@ -55,6 +60,11 @@ loop until validEntry
              TerminalInterface -> User: "Enter Location Again"
              
         else        
+
+        LocationManager -> CacheManager: storeLocation(locationDetails)
+        activate CacheManager
+        CacheManager --> LocationManager: "Location Stored"
+        deactivate CacheManager
 
         LocationManager -> LocationManager: extractCoordiantes()
         deactivate GeoCoding
@@ -98,12 +108,20 @@ deactivate CacheManager
 DataManager -> LocationManager: airData
 deactivate DataManager
 
-LocationManager -> CacheManager: storeLocation(locationDetails)
-activate CacheManager
-CacheManager --> LocationManager: "Location Stored"
 deactivate CacheManager
-LocationManager --> TerminalInterface: "Location Stored"
-deactivate LocationManager
+LocationManager -> DataManager: fetchForecast(latitude,longitude)
+activate DataManager
+DataManager -> WeatherService: fetchForecast(latitude,longitude)
+activate WeatherService
+WeatherService -> DataManager: ForecastReport
+deactivate WeatherService
+DataManager -> CacheManager: storeForecast(latitude,longitude,forecastReport)
+activate CacheManager
+CacheManager -> DataManager: "data stored"
+deactivate CacheManager
+DataManager -> LocationManager: ForecastReport
+deactivate DataManager
+
 
 
 else LocationExists
