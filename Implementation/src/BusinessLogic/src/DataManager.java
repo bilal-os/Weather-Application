@@ -1,4 +1,5 @@
 package BusinessLogic.src;
+import CacheStorage_DataBase.CacheStorage;
 
 import java.util.Vector;
 
@@ -10,19 +11,17 @@ public class DataManager {
         abstract  public String fetchAirReport(double latitude, double longitude);
         abstract  public String fetchForecast(double latitude, double longitude);
 
-        abstract public Vector<String> fetchWeatherReports(Vector<String> coordinates);
-        abstract public Vector<String> fetchAirReports(Vector<String> coordinates);
-
-        abstract public Vector<String> fetchForecastReports(Vector<String> coordinates);
 
     }
 
     public static class Data_Manager extends DataManagerInterface{
         private WeatherService weatherService;
+        private CacheManager cacheManager;
 
-        public Data_Manager()
+        public Data_Manager(CacheManager cacheManager)
         {
             weatherService = new WeatherService();
+            this.cacheManager=cacheManager;
         }
         public String fetchWeatherReport(double latitude, double longitude) {
             return weatherService.fetchWeatherReport(latitude,longitude);
@@ -92,6 +91,22 @@ public class DataManager {
 
             return reports;
         }
+
+        public boolean storeWeatherReport(double latitude, double longitude,String weatherReport)
+        {
+          return cacheManager.storeWeatherReport(latitude,longitude,weatherReport);
+        }
+
+        public boolean storeAirReport(double latitude, double longitude,String airReport)
+        {
+            return cacheManager.storeAirReport(latitude,longitude,airReport);
+        }
+
+        public boolean storeForecast(double latitude, double longitude, String forecast)
+        {
+           return cacheManager.storeForecast(latitude,longitude,forecast);
+        }
+
 
     }
 
