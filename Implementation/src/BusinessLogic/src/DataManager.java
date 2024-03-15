@@ -24,16 +24,35 @@ public class DataManager {
             this.cacheManager=cacheManager;
         }
         public String fetchWeatherReport(double latitude, double longitude) {
-            return weatherService.fetchWeatherReport(latitude,longitude);
+
+            String cacheData = cacheManager.fetchWeatherReport(latitude,longitude);
+
+            if("No weather report found".equals(cacheData)) {
+                return weatherService.fetchWeatherReport(latitude, longitude);
+            }
+
+            return cacheData;
         }
 
         public String fetchAirReport(double latitude, double longitude){
-            return weatherService.fetchAirReport(latitude,longitude);
+
+            String cacheData = cacheManager.fetchAirReport(latitude,longitude);
+
+            if("No air report found".equals(cacheData)) {
+                return weatherService.fetchAirReport(latitude, longitude);
+            }
+            return cacheData;
         }
 
         public String fetchForecast(double latitude, double longitude)
         {
-            return weatherService.fetchForecast(latitude,longitude);
+            String cacheData = cacheManager.fetchForecast(latitude,longitude);
+
+            if("No forecast report found".equals(cacheData)) {
+                return weatherService.fetchForecast(latitude, longitude);
+            }
+
+            return cacheData;
         }
 
         public Vector<String> fetchWeatherReports(Vector<String> coordinates)

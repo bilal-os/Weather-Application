@@ -6,4 +6,10 @@ abstract public class CacheManager {
 
    abstract public boolean storeForecast(double latitude, double longitude, String forecast);
 
+   abstract public String fetchWeatherReport(double latitude, double longitude);
+
+   abstract public String fetchAirReport(double latitude, double longitude);
+
+   abstract public String fetchForecast(double latitude, double longitude);
+
 }

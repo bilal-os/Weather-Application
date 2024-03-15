@@ -26,7 +26,6 @@ public class Main {
 
         System.out.println(weatherData);
 
-        dm2.storeForecast(34.0522,-118.2437,weatherData);
 
         // Print each air report
         /*
