@@ -1,5 +1,4 @@
 package BusinessLogic.src;
-import CacheStorage_DataBase.CacheStorage;
 
 import java.util.Vector;
 
@@ -15,12 +14,12 @@ public class DataManager {
     }
 
     public static class Data_Manager extends DataManagerInterface{
-        private WeatherService weatherService;
+        private APIService weatherService;
         private CacheManager cacheManager;
 
         public Data_Manager(CacheManager cacheManager)
         {
-            weatherService = new WeatherService();
+            weatherService = new APIService();
             this.cacheManager=cacheManager;
         }
         public String fetchWeatherReport(double latitude, double longitude) {

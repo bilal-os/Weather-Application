@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-public class WeatherService {
+public class APIService {
         private String baseWeatherURL = "https://api.openweathermap.org/data/2.5/weather?";
         private String baseAirURL = "http://api.openweathermap.org/data/2.5/air_pollution?";
         private String baseForecastURL = "https://api.openweathermap.org/data/2.5/forecast?";
