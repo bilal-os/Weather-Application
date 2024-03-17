@@ -28,7 +28,7 @@ public class CacheStorage extends CacheManager {
                 connection = DriverManager.getConnection(url, username, password);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw e;
         }
         return connection;
@@ -53,7 +53,7 @@ public class CacheStorage extends CacheManager {
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw e;
         }
     }
@@ -67,7 +67,7 @@ public class CacheStorage extends CacheManager {
                 return rs.next() ? rs.getString("report") : defaultMsg;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw e;
         }
     }
@@ -116,7 +116,7 @@ public class CacheStorage extends CacheManager {
                 return rowsInserted > 0;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw e;
         }
     }
@@ -141,7 +141,7 @@ public class CacheStorage extends CacheManager {
             }
             return locations;
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw e;
         }
     }

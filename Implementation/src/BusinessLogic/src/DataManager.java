@@ -10,7 +10,6 @@ public class DataManager {
         abstract  public String fetchAirReport(double latitude, double longitude);
         abstract  public String fetchForecast(double latitude, double longitude);
 
-
     }
 
     public static class Data_Manager extends DataManagerInterface{
@@ -23,106 +22,173 @@ public class DataManager {
             this.cacheManager=cacheManager;
         }
         public String fetchWeatherReport(double latitude, double longitude) {
+            try {
+                String cacheData = cacheManager.fetchWeatherReport(latitude, longitude);
 
-            String cacheData = cacheManager.fetchWeatherReport(latitude,longitude);
+                if ("No weather report found".equals(cacheData)) {
+                    return weatherService.fetchWeatherReport(latitude, longitude);
+                }
 
-            if("No weather report found".equals(cacheData)) {
-                return weatherService.fetchWeatherReport(latitude, longitude);
+                return cacheData;
             }
-
-            return cacheData;
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
+            }
         }
 
         public String fetchAirReport(double latitude, double longitude){
 
-            String cacheData = cacheManager.fetchAirReport(latitude,longitude);
+            try {
+                String cacheData = cacheManager.fetchAirReport(latitude, longitude);
 
-            if("No air report found".equals(cacheData)) {
-                return weatherService.fetchAirReport(latitude, longitude);
+                if ("No air report found".equals(cacheData)) {
+                    return weatherService.fetchAirReport(latitude, longitude);
+                }
+                return cacheData;
             }
-            return cacheData;
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
+            }
         }
 
         public String fetchForecast(double latitude, double longitude)
         {
-            String cacheData = cacheManager.fetchForecast(latitude,longitude);
+            try {
+                String cacheData = cacheManager.fetchForecast(latitude, longitude);
 
-            if("No forecast report found".equals(cacheData)) {
-                return weatherService.fetchForecast(latitude, longitude);
+                if ("No forecast report found".equals(cacheData)) {
+                    return weatherService.fetchForecast(latitude, longitude);
+                }
+
+                return cacheData;
             }
-
-            return cacheData;
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
+            }
         }
 
         public Vector<String> fetchWeatherReports(Vector<String> coordinates)
         {
-            Vector<String> reports = new Vector<>();
+            try {
+                Vector<String> reports = new Vector<>();
 
-            for (String coordinate : coordinates) {
-                String[] parts = coordinate.split(",");
-                if (parts.length == 2) {
-                    double latitude = Double.parseDouble(parts[0].trim());
-                    double longitude = Double.parseDouble(parts[1].trim());
-                    String airReport = weatherService.fetchWeatherReport(latitude, longitude);
-                    if (airReport != null) {
-                        reports.add(airReport);
+                for (String coordinate : coordinates) {
+                    String[] parts = coordinate.split(",");
+                    if (parts.length == 2) {
+                        double latitude = Double.parseDouble(parts[0].trim());
+                        double longitude = Double.parseDouble(parts[1].trim());
+                        String airReport = weatherService.fetchWeatherReport(latitude, longitude);
+                        if (airReport != null) {
+                            reports.add(airReport);
+                        }
                     }
                 }
-            }
 
-            return reports;
+                return reports;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
+            }
         }
 
         public Vector<String> fetchAirReports(Vector<String> coordinates) {
-            Vector<String> reports = new Vector<>();
 
-            for (String coordinate : coordinates) {
-                String[] parts = coordinate.split(",");
-                if (parts.length == 2) {
-                    double latitude = Double.parseDouble(parts[0].trim());
-                    double longitude = Double.parseDouble(parts[1].trim());
-                    String airReport = weatherService.fetchAirReport(latitude, longitude);
-                    if (airReport != null) {
-                        reports.add(airReport);
+            try {
+
+
+                Vector<String> reports = new Vector<>();
+
+                for (String coordinate : coordinates) {
+                    String[] parts = coordinate.split(",");
+                    if (parts.length == 2) {
+                        double latitude = Double.parseDouble(parts[0].trim());
+                        double longitude = Double.parseDouble(parts[1].trim());
+                        String airReport = weatherService.fetchAirReport(latitude, longitude);
+                        if (airReport != null) {
+                            reports.add(airReport);
+                        }
                     }
                 }
-            }
 
-            return reports;
+                return reports;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
+            }
         }
 
         public Vector<String> fetchForecastReports(Vector<String> coordinates)
         {
-            Vector<String> reports = new Vector<>();
+            try {
 
-            for (String coordinate : coordinates) {
-                String[] parts = coordinate.split(",");
-                if (parts.length == 2) {
-                    double latitude = Double.parseDouble(parts[0].trim());
-                    double longitude = Double.parseDouble(parts[1].trim());
-                    String airReport = weatherService.fetchForecast(latitude, longitude);
-                    if (airReport != null) {
-                        reports.add(airReport);
+                Vector<String> reports = new Vector<>();
+
+                for (String coordinate : coordinates) {
+                    String[] parts = coordinate.split(",");
+                    if (parts.length == 2) {
+                        double latitude = Double.parseDouble(parts[0].trim());
+                        double longitude = Double.parseDouble(parts[1].trim());
+                        String airReport = weatherService.fetchForecast(latitude, longitude);
+                        if (airReport != null) {
+                            reports.add(airReport);
+                        }
                     }
                 }
+
+                return reports;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
+            }
+        }
+
+        private boolean storeWeatherReport(double latitude, double longitude,String weatherReport)
+        {
+            try {
+                return cacheManager.storeWeatherReport(latitude, longitude, weatherReport);
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return false;
+            }
+        }
+
+        private boolean storeAirReport(double latitude, double longitude,String airReport)
+        {
+            try {
+                return cacheManager.storeAirReport(latitude,longitude,airReport);
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return false;
             }
 
-            return reports;
         }
 
-        public boolean storeWeatherReport(double latitude, double longitude,String weatherReport)
+        private boolean storeForecast(double latitude, double longitude, String forecast)
         {
-          return cacheManager.storeWeatherReport(latitude,longitude,weatherReport);
-        }
-
-        public boolean storeAirReport(double latitude, double longitude,String airReport)
-        {
-            return cacheManager.storeAirReport(latitude,longitude,airReport);
-        }
-
-        public boolean storeForecast(double latitude, double longitude, String forecast)
-        {
-           return cacheManager.storeForecast(latitude,longitude,forecast);
+            try {
+                return cacheManager.storeForecast(latitude, longitude, forecast);
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return false;
+            }
         }
 
 

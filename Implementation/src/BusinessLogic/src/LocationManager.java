@@ -31,55 +31,84 @@ public class LocationManager {
       public String addLocation(double latitude, double longitude)
       {
           String weatherReport, airReport, foreCast, locationDetails;
-
+          try {
           weatherReport = dataManager.fetchWeatherReport(latitude,longitude);
           airReport = dataManager.fetchAirReport(latitude,longitude);
           foreCast = dataManager.fetchForecast(latitude,longitude);
           locationDetails = geoCoding.reverseGeoCoding(latitude,longitude);
 
-          cacheManager.storeWeatherReport(latitude,longitude,weatherReport);
-          cacheManager.storeAirReport(latitude,longitude,airReport);
-          cacheManager.storeForecast(latitude,longitude,foreCast);
-          cacheManager.storeLocation(locationDetails);
 
 
-          return "Location Stored";
+              cacheManager.storeWeatherReport(latitude, longitude, weatherReport);
+              cacheManager.storeAirReport(latitude, longitude, airReport);
+              cacheManager.storeForecast(latitude, longitude, foreCast);
+              cacheManager.storeLocation(locationDetails);
+
+              return "Location Stored";
+          }
+          catch (Exception e)
+          {
+              System.out.println("Exception occurred: " + e.getMessage());
+              return null;
+          }
 
       }
       public Vector<String> fetchStoredLocations()
       {
-           return cacheManager.fetchStoredLocations();
+          try {
+              return cacheManager.fetchStoredLocations();
+          }
+          catch (Exception e)
+          {
+              System.out.println("Exception occurred: " + e.getMessage());
+              return null;
+          }
       }
 
       public String convertToCoordinates(String Location)  {
             StringBuilder coordinates = new StringBuilder();
 
             String encodedLocation = URLEncoder.encode(Location);
-            String locationDetails = geoCoding.directGeoCoding(encodedLocation);
 
-            if (locationDetails.isEmpty()) {
-                return "Incorrect Location";
+            try {
+                String locationDetails = geoCoding.directGeoCoding(encodedLocation);
+
+                if (locationDetails.isEmpty()) {
+                    return "Incorrect Location";
+                }
+
+                JSONArray jsonArray = new JSONArray(locationDetails);
+                if (jsonArray.isEmpty()) {
+                    return "Incorrect Location";
+                }
+
+                JSONObject jsonLocation = jsonArray.getJSONObject(0);
+                double latitude = jsonLocation.getDouble("lat");
+                double longitude = jsonLocation.getDouble("lon");
+
+                coordinates.append(latitude);
+                coordinates.append(", ");
+                coordinates.append(longitude);
+
+                return coordinates.toString();
             }
-
-            JSONArray jsonArray = new JSONArray(locationDetails);
-            if (jsonArray.isEmpty()) {
-                return "Incorrect Location";
+            catch (Exception e)
+            {
+                System.out.println("Exception occurred: " + e.getMessage());
+                return null;
             }
-
-            JSONObject jsonLocation = jsonArray.getJSONObject(0);
-            double latitude = jsonLocation.getDouble("lat");
-            double longitude = jsonLocation.getDouble("lon");
-
-            coordinates.append(latitude);
-            coordinates.append(", ");
-            coordinates.append(longitude);
-
-            return coordinates.toString();
         }
 
       public boolean verifyCoordinates(double latitude, double longitude)
       {
-          String locationDetails = geoCoding.reverseGeoCoding(latitude, longitude);
+          String locationDetails;
+          try{
+           locationDetails = geoCoding.reverseGeoCoding(latitude, longitude);}
+          catch (Exception e)
+          {
+              System.out.println("Exception occurred: " + e.getMessage());
+              return  false;
+          }
 
           if(locationDetails.equals("Error"))
           {

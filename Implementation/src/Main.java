@@ -1,3 +1,4 @@
+import BusinessLogic.src.CacheManager;
 import BusinessLogic.src.DataManager;
 
 import java.net.URLEncoder;
@@ -10,37 +11,28 @@ import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
+
         try {
-            // Create an instance of CacheStorage
-            CacheStorage cacheStorage = new CacheStorage();
+            CacheManager cacheManager = new CacheStorage();
+            DataManager.Data_Manager dataManager = new DataManager.Data_Manager(cacheManager);
 
-            // Test storeWeatherReport method
-            double latitude = 40.7128; // Example latitude (New York City)
-            double longitude = -74.0060; // Example longitude (New York City)
-            String weatherReport = "Sunny"; // Example weather report
-            boolean weatherStored = cacheStorage.storeWeatherReport(latitude, longitude, weatherReport);
-            if (weatherStored) {
-                System.out.println("Weather report stored successfully.");
-            } else {
-                System.out.println("Failed to store weather report.");
-            }
+           String data = dataManager.fetchWeatherReport(51.5074,-0.1278);
+           String data1 = dataManager.fetchAirReport(51.5074,-0.1278);
+           String data2 = dataManager.fetchForecast(51.5074,-0.1278);
+           System.out.println(data);
+           System.out.println(data1);
+           System.out.println(data2);
+           dataManager.storeWeatherReport(51.5074,-0.1278,data);
 
-            // Test fetchWeatherReport method
-            String fetchedWeatherReport = cacheStorage.fetchWeatherReport(latitude, longitude);
-            if (fetchedWeatherReport != null) {
-                System.out.println("Fetched weather report: " + fetchedWeatherReport);
-            } else {
-                System.out.println("Failed to fetch weather report.");
-            }
 
-            // Add more tests as needed for other methods...
 
-        } catch (SQLException e) {
-            System.out.println("An SQL error occurred: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
+
+
+
     }
 }
