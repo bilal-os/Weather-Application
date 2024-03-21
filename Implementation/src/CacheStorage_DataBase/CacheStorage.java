@@ -7,8 +7,11 @@ import BusinessLogic.src.CacheManager;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-public class CacheStorage extends CacheManager {
+public class CacheStorage extends CacheManager{
     private Connection connection;
+    private String weatherTable = "WeatherReports";
+    private String airTable = "AirReports";
+    private String forecastTable = "ForecastReports";
 
     public CacheStorage() throws SQLException {
             connection = getConnection();
@@ -44,56 +47,53 @@ public class CacheStorage extends CacheManager {
         }
     }
 
-    private boolean insertData(String tableName, double latitude, double longitude, String data) throws SQLException {
+    public boolean storeReport(double latitude, double longitude, String reportType, String report) throws SQLException {
+
+        String tableName;
+        tableName = getTableName(reportType);
+
         String sql = "INSERT INTO " + tableName + " VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setDouble(1, latitude);
             pstmt.setDouble(2, longitude);
-            pstmt.setString(3, data);
+            pstmt.setString(3, report);
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-
             throw e;
         }
     }
 
-    private String fetchData(String tableName, double latitude, double longitude, String defaultMsg) throws SQLException {
+    public String fetchReport(double latitude, double longitude, String reportType) throws SQLException {
+
+        String tableName;
+
+       tableName = getTableName(reportType);
+
         String sql = "SELECT report FROM " + tableName + " WHERE lat = ? AND lon = ?";
+
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setDouble(1, latitude);
             pstmt.setDouble(2, longitude);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next() ? rs.getString("report") : defaultMsg;
+                return rs.next() ? rs.getString("report") : null;
             }
         } catch (SQLException e) {
-
             throw e;
         }
     }
 
-    public boolean storeWeatherReport(double latitude, double longitude, String weatherReport) throws SQLException {
-        return insertData("WeatherReport", latitude, longitude, weatherReport);
-    }
-
-    public boolean storeAirReport(double latitude, double longitude, String airReport) throws SQLException {
-        return insertData("airReport", latitude, longitude, airReport);
-    }
-
-    public boolean storeForecast(double latitude, double longitude, String forecast) throws SQLException {
-        return insertData("forecast", latitude, longitude, forecast);
-    }
-
-    public String fetchWeatherReport(double latitude, double longitude) throws SQLException {
-        return fetchData("WeatherReport", latitude, longitude, "No weather report found");
-    }
-
-    public String fetchAirReport(double latitude, double longitude) throws SQLException {
-        return fetchData("airReport", latitude, longitude, "No air report found");
-    }
-
-    public String fetchForecast(double latitude, double longitude) throws SQLException {
-        return fetchData("forecast", latitude, longitude, "No forecast report found");
+    private String getTableName(String reportType) throws SQLException {
+        switch (reportType) {
+            case "Weather":
+                return weatherTable;
+            case "Air":
+                return airTable;
+            case "Forecast":
+                return forecastTable;
+            default:
+                throw new SQLException("Invalid report type: " + reportType);
+        }
     }
 
     public boolean storeLocation(String locationDetails) throws SQLException {
@@ -145,4 +145,9 @@ public class CacheStorage extends CacheManager {
             throw e;
         }
     }
+
 }
+
+
+
+

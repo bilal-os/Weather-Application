@@ -1,7 +1,7 @@
 create database databaseCache;
 use databaseCache
 
-CREATE TABLE WeatherReport (
+CREATE TABLE WeatherReports (
         id INT IDENTITY(1,1),
     lat DECIMAL(8, 6),
     lon DECIMAL(9, 6),
@@ -9,7 +9,7 @@ CREATE TABLE WeatherReport (
     CONSTRAINT PK_WeatherReport PRIMARY KEY (lat, lon)
 );
 
-CREATE TABLE airReport (
+CREATE TABLE AirReports (
         id INT IDENTITY(1,1),
     lat DECIMAL(8, 6),
     lon DECIMAL(9, 6),
@@ -17,7 +17,7 @@ CREATE TABLE airReport (
     CONSTRAINT PK_airReport PRIMARY KEY (lat, lon)
 );
 
-CREATE TABLE forecast (
+CREATE TABLE ForecastReports (
         id INT IDENTITY(1,1),
     lat DECIMAL(8, 6),
     lon DECIMAL(9, 6),
@@ -25,7 +25,7 @@ CREATE TABLE forecast (
     CONSTRAINT PK_ForeCast PRIMARY KEY (lat, lon)
 );
 
-CREATE TABLE locations (
+CREATE TABLE Locations (
     id INT IDENTITY(1,1),
     cityName NVARCHAR(MAX),
     latitude float,
@@ -45,8 +45,8 @@ SELECT * from forecast
 
 select * from locations
 
-TRUNCATE table WeatherReport
-TRUNCATE TABLE airReport
-TRUNCATE TABLE forecast
-TRUNCATE TABLE locations
+drop table WeatherReport
+drop TABLE airReport
+drop TABLE forecast
+drop TABLE locations
 

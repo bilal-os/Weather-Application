@@ -6,21 +6,22 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.Vector;
 
+
 public class LocationManager {
 
   abstract static public class LocationManagerInterface{
-        abstract public String addLocation(double latitude, double longitude);
-        abstract public Vector<String> fetchStoredLocations();
-        abstract  public  String convertToCoordinates(String location);
-        abstract  public boolean verifyCoordinates(double latitude, double longitude);
+        abstract public String addLocation(double latitude, double longitude) throws Exception;
+        abstract public Vector<String> fetchStoredLocations() throws Exception;
+        abstract  public  String convertToCoordinates(String location) throws Exception;
+        abstract  public boolean verifyCoordinates(double latitude, double longitude) throws Exception;
 
   }
-
     static public class Location_Manager extends LocationManagerInterface{
 
       private DataManager.Data_Manager dataManager;
       private CacheManager cacheManager;
-      private GeoCoding geoCoding;
+
+      private APIService api;
 
       public Location_Manager(CacheManager cacheManager)
       {
@@ -28,58 +29,56 @@ public class LocationManager {
         dataManager = new DataManager.Data_Manager(cacheManager);
         geoCoding = new GeoCoding();
       }
-      public String addLocation(double latitude, double longitude)
+      public String addLocation(double latitude, double longitude) throws Exception
       {
           String weatherReport, airReport, foreCast, locationDetails;
           try {
-          weatherReport = dataManager.fetchWeatherReport(latitude,longitude);
-          airReport = dataManager.fetchAirReport(latitude,longitude);
-          foreCast = dataManager.fetchForecast(latitude,longitude);
-          locationDetails = geoCoding.reverseGeoCoding(latitude,longitude);
+          weatherReport = dataManager.fetchReport(latitude,longitude,"Weather");
+          airReport = dataManager.fetchReport(latitude,longitude,"Air");
+          foreCast = dataManager.fetchReport(latitude,longitude,"Forecast");
+          locationDetails = api.reverseGeoCoding(latitude,longitude);
 
 
-
-              cacheManager.storeWeatherReport(latitude, longitude, weatherReport);
-              cacheManager.storeAirReport(latitude, longitude, airReport);
-              cacheManager.storeForecast(latitude, longitude, foreCast);
+              cacheManager.storeReport(latitude, longitude, "Weather",weatherReport);
+              cacheManager.storeReport(latitude, longitude, "Air",airReport);
+              cacheManager.storeReport(latitude, longitude, "Forecast",foreCast);
               cacheManager.storeLocation(locationDetails);
 
               return "Location Stored";
           }
           catch (Exception e)
           {
-              System.out.println("Exception occurred: " + e.getMessage());
-              return null;
+                throw e;
           }
 
       }
-      public Vector<String> fetchStoredLocations()
+      public Vector<String> fetchStoredLocations() throws Exception
       {
           try {
               return cacheManager.fetchStoredLocations();
           }
           catch (Exception e)
           {
-              System.out.println("Exception occurred: " + e.getMessage());
-              return null;
+                throw e;
           }
       }
 
-      public String convertToCoordinates(String Location)  {
+      public String convertToCoordinates(String Location)  throws Exception{
             StringBuilder coordinates = new StringBuilder();
 
             String encodedLocation = URLEncoder.encode(Location);
 
             try {
-                String locationDetails = geoCoding.directGeoCoding(encodedLocation);
+                String locationDetails = api.directGeoCoding(encodedLocation);
 
-                if (locationDetails.isEmpty()) {
-                    return "Incorrect Location";
+                // Check if locationDetails is null or empty before proceeding
+                if (locationDetails == null || locationDetails.isEmpty()) {
+                    throw new Exception("Empty location details returned");
                 }
 
                 JSONArray jsonArray = new JSONArray(locationDetails);
                 if (jsonArray.isEmpty()) {
-                    return "Incorrect Location";
+                    throw new Exception("Empty location details returned");
                 }
 
                 JSONObject jsonLocation = jsonArray.getJSONObject(0);
@@ -94,30 +93,34 @@ public class LocationManager {
             }
             catch (Exception e)
             {
-                System.out.println("Exception occurred: " + e.getMessage());
-                return null;
+                throw e;
             }
         }
 
-      public boolean verifyCoordinates(double latitude, double longitude)
-      {
-          String locationDetails;
-          try{
-           locationDetails = geoCoding.reverseGeoCoding(latitude, longitude);}
-          catch (Exception e)
-          {
-              System.out.println("Exception occurred: " + e.getMessage());
-              return  false;
-          }
+        public boolean verifyCoordinates(double latitude, double longitude) throws Exception {
 
-          if(locationDetails.equals("Error"))
-          {
-              return false;
-          }
+         try {
+             String locationDetails = api.reverseGeoCoding(latitude, longitude);
 
-          else return !locationDetails.equals("[]");
-      }
+             // Check if locationDetails is null or empty before proceeding
+             if (locationDetails == null || locationDetails.isEmpty()) {
+                 throw new Exception("Empty location details returned");
+             }
 
+             JSONArray jsonArray = new JSONArray(locationDetails);
+
+             // Check if jsonArray is empty before proceeding
+             if (jsonArray.isEmpty()) {
+                 throw new Exception("Empty location details returned");
+             }
+
+             return true;
+         }
+         catch (Exception e)
+         {
+             throw e;
+         }
+        }
     }
 
 
