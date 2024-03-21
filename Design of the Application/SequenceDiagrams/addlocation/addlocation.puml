@@ -1,0 +1,74 @@
+@startuml
+title AddLocation Scenario
+autonumber
+actor User
+participant TerminalInterface
+participant LocationManager
+participant APIService
+participant DataManager
+participant CacheManager
+participant WeatherService
+
+scale 2
+User -> TerminalInterface: addLocation()
+activate User
+TerminalInterface --> User: Enter Location
+activate TerminalInterface
+User -> TerminalInterface: location
+
+TerminalInterface -> TerminalInterface: findStoredLocation(location)
+
+alt locationNotExist
+
+ref over User,TerminalInterface,LocationManager,APIService
+    Validate Location
+end ref
+
+
+
+TerminalInterface -> LocationManager: addLocation(latitude,longitude)
+activate LocationManager
+LocationManager -> DataManager: fetchReport(latitude,longitude,"Weather")
+activate DataManager
+ref over DataManager,CacheManager,WeatherService
+    Fetch Report
+end ref    
+DataManager -> LocationManager: WeatherReport
+deactivate DataManager
+
+deactivate CacheManager
+LocationManager -> DataManager: fetchReport(latitude,longitude,"Air")
+activate DataManager
+ref over DataManager,CacheManager,WeatherService
+    Fetch Report
+end ref    
+
+DataManager -> LocationManager: AirReport
+deactivate DataManager
+
+deactivate CacheManager
+LocationManager -> DataManager: fetchReport(latitude,longitude,"Forecast")
+activate DataManager
+ref over DataManager,CacheManager,WeatherService
+    Fetch Report
+end ref    
+
+DataManager -> LocationManager: ForecastReport
+deactivate DataManager
+
+LocationManager -> APIService: reverseGeoCoding(latitude,longitude)
+activate APIService
+APIService --> LocationManager: LocationDetails
+deactivate APIService
+LocationManager -> CacheManager: storeLocation(LocationDetails)
+activate CacheManager
+CacheManager --> LocationManager: True
+deactivate CacheManager
+LocationManager --> TerminalInterface: True
+deactivate LocationManager
+
+else LocationExists
+TerminalInterface --> User: "Location Already Exists"
+deactivate TerminalInterface
+
+end

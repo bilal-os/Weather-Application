@@ -15,20 +15,24 @@ rectangle "Weather System" {
     usecase "Enable notification" as EnableNotification
     usecase "Raise notification" as RaiseNotification
     usecase "Update cache" as UpdateCache
-    usecase "See air pollution data" as SeeAirPollution
-    usecase "Render weather data" as RenderWeatherData
-    usecase "Render air data" as RenderAirData
+    usecase "See current air report" as SeeAirPollution
+    usecase "See 5 Days Forecast" as Forecast
+    usecase "Render Weather Report" as RenderWeatherData
+    usecase "Render Air Report" as RenderAirData
+    usecase "Render Forecast Report" as RenderForecast
     
     U --> AddLocationLL
     U --> AddLocationCC
     U --> SeeWeather
     U --> EnableNotification
-    U --> RaiseNotification
+    U --> Forecast
+    U --> SeeAirPollution
     CU --> UpdateCache
     NS --> RaiseNotification
     NS --> EnableNotification
     T --> RenderWeatherData
     T --> RenderAirData
-    U --> SeeAirPollution
+    T --> RenderForecast
+
 }
 

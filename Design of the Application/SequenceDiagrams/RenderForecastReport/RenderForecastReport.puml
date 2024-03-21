@@ -1,0 +1,15 @@
+@startuml
+title RenderForecastReport
+autonumber
+actor User
+participant TerminalInterface
+participant ForecastWindow
+participant WeatherData
+
+TerminalInterface -> ForecastWindow: ShowForecastWindow(weatherReports)
+activate TerminalInterface
+activate ForecastWindow
+loop NumberofReports
+ForecastWindow -> WeatherData: formatData(weatherReport)
+end
+ForecastWindow -> ForecastWindow: showForecasts()

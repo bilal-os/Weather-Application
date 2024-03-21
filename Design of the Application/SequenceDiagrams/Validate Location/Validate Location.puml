@@ -1,0 +1,53 @@
+@startuml
+title Validate Location
+autonumber
+actor User
+participant TerminalInterface
+participant LocationManager
+participant APIService
+
+loop until validEntry
+
+    alt locationIsCity
+        TerminalInterface -> LocationManager: convertToCoordinates()
+        activate LocationManager
+        LocationManager -> APIService: directGeoCoding(location: string)
+        activate APIService
+        APIService --> LocationManager: locationDetails
+        deactivate APIService
+       
+        alt errorFetching
+             LocationManager -> TerminalInterface: "Error: Invalid location"
+             TerminalInterface -> User: "Enter Location Again"
+             
+        else
+
+        LocationManager -> LocationManager: extractCoordiantes()
+        LocationManager --> TerminalInterface: coordinates
+        deactivate LocationManager
+        
+        end
+
+    else locationIsCoordinates
+        TerminalInterface -> LocationManager: verifyCoordinates(latitude,longitude)
+        activate LocationManager
+        LocationManager -> APIService: reverseGeoCoding(latitude,longitude)
+        activate APIService
+        APIService --> LocationManager: locationDetails
+        deactivate APIService
+        
+        alt errorFetching
+             LocationManager -> TerminalInterface: "Error: Invalid location"
+             TerminalInterface -> User: "Enter Location Again"
+             
+        else        
+
+        deactivate APIService
+        LocationManager --> TerminalInterface: coordinates
+        deactivate LocationManager
+
+        end    
+            
+    end
+
+end

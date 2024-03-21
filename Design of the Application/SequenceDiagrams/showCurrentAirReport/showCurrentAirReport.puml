@@ -1,0 +1,42 @@
+@startuml
+title CurrentAirReport Scenario
+autonumber
+actor User
+participant TerminalInterface
+participant LocationManager
+participant APIService
+participant DataManager
+participant CacheManager
+participant WeatherService
+
+scale 2
+User -> TerminalInterface: showCurrentAir()
+activate User
+TerminalInterface --> User: Enter Location
+activate TerminalInterface
+User -> TerminalInterface: location
+
+ref over User,TerminalInterface,LocationManager,APIService
+    Validate Location
+end ref
+
+
+TerminalInterface -> DataManager: fetctReport(latitude,longitude,"Air")
+activate DataManager
+
+ref over DataManager,CacheManager,WeatherService
+    Fetch Report
+end ref    
+
+
+DataManager --> TerminalInterface: AirReport
+deactivate DataManager
+
+
+ref over TerminalInterface
+    RenderAirReport
+end ref
+
+
+
+@enduml

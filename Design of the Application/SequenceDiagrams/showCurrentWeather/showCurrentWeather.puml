@@ -1,0 +1,40 @@
+@startuml
+title Show Current Weather
+autonumber
+actor User
+participant TerminalInterface
+participant LocationManager
+participant APIService
+participant DataManager
+participant CacheManager
+participant WeatherService
+
+scale 2
+User -> TerminalInterface: showCurrentWeather()
+activate User
+TerminalInterface --> User: Enter Location
+activate TerminalInterface
+User -> TerminalInterface: location
+
+ref over User,TerminalInterface,LocationManager,APIService
+    Validate Location
+end ref
+
+TerminalInterface -> DataManager: fetchReport(latitude,longitude,"Weather")
+activate DataManager
+
+ref over DataManager,CacheManager,WeatherService
+    Fetch Report
+end ref    
+
+DataManager --> TerminalInterface: weatherReport
+deactivate DataManager
+
+
+ref over TerminalInterface
+    RenderWeatherReport
+end ref
+
+
+
+@enduml

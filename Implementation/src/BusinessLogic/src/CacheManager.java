@@ -1,18 +1,13 @@
 package BusinessLogic.src;
 
+import java.sql.SQLException;
 import java.util.Vector;
 
 abstract public class CacheManager {
-   abstract public boolean storeWeatherReport(double latitude, double longitude, String WeatherReport) throws Exception;
-   abstract public boolean storeAirReport(double latitude, double longitude, String airReport) throws Exception;
 
-   abstract public boolean storeForecast(double latitude, double longitude, String forecast) throws Exception;
+   abstract public boolean storeReport(double latitude, double longitude, String reportType, String report) throws Exception;
 
-   abstract public String fetchWeatherReport(double latitude, double longitude) throws Exception;
-
-   abstract public String fetchAirReport(double latitude, double longitude) throws Exception;
-
-   abstract public String fetchForecast(double latitude, double longitude) throws Exception;
+   abstract public String fetchReport(double latitude, double longitude, String reportType) throws Exception;
 
    abstract public boolean storeLocation(String locationDetails) throws Exception;
 
