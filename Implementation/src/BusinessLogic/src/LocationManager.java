@@ -10,14 +10,13 @@ import java.util.Vector;
 public class LocationManager {
 
   abstract static public class LocationManagerInterface{
-        abstract public String addLocation(double latitude, double longitude) throws Exception;
+        abstract public boolean addLocation(double latitude, double longitude) throws Exception;
         abstract public Vector<String> fetchStoredLocations() throws Exception;
         abstract  public  String convertToCoordinates(String location) throws Exception;
         abstract  public boolean verifyCoordinates(double latitude, double longitude) throws Exception;
 
   }
     static public class Location_Manager extends LocationManagerInterface{
-
       private DataManager.Data_Manager dataManager;
       private CacheManager cacheManager;
 
@@ -27,9 +26,9 @@ public class LocationManager {
       {
         this.cacheManager=cacheManager;
         dataManager = new DataManager.Data_Manager(cacheManager);
-        geoCoding = new GeoCoding();
+        api = new APIService();
       }
-      public String addLocation(double latitude, double longitude) throws Exception
+      public boolean addLocation(double latitude, double longitude) throws Exception
       {
           String weatherReport, airReport, foreCast, locationDetails;
           try {
@@ -44,7 +43,7 @@ public class LocationManager {
               cacheManager.storeReport(latitude, longitude, "Forecast",foreCast);
               cacheManager.storeLocation(locationDetails);
 
-              return "Location Stored";
+              return true;
           }
           catch (Exception e)
           {

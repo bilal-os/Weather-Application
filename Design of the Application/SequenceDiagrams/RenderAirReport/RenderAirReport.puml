@@ -1,0 +1,12 @@
+@startuml
+title RenderAirReport
+autonumber
+actor User
+participant TerminalInterface
+participant AirReportWindow
+
+TerminalInterface -> AirReportWindow: ShowAirReport(airReport)
+activate TerminalInterface
+activate AirReportWindow
+AirReportWindow -> AirReportWindow: formatData(weatherReport)
+AirReportWindow -> AirReportWindow: showCurrentWeather()

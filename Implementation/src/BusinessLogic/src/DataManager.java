@@ -27,7 +27,9 @@ public class DataManager {
 
                 if(cacheData==null)
                 {
-                    return weatherService.fetchReport(latitude,longitude,reportType);
+                    String report = weatherService.fetchReport(latitude,longitude,reportType);
+                    cacheManager.storeReport(latitude,longitude,reportType,report);
+                    return report;
                 }
 
                 return cacheData;

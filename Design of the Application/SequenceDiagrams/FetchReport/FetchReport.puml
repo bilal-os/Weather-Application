@@ -1,0 +1,24 @@
+@startuml
+title FetchReport
+autonumber
+
+activate DataManager
+DataManager -> CacheManager: fetcReport(latitude,longitude,reportType)
+activate CacheManager
+
+CacheManager --> DataManager: Report
+deactivate CacheManager
+
+opt ReportNotAvailable
+     DataManager -> WeatherService: fetchReport(latitude,longitude reportType)
+     activate WeatherService
+     WeatherService --> DataManager: Report
+     deactivate WeatherService
+     DataManager -> CacheManager: storeReport(latitude,longitude,reportType,report)
+     activate CacheManager
+     CacheManager --> DataManager: True
+     deactivate CacheManager
+     deactivate DataManager
+end
+
+@enduml

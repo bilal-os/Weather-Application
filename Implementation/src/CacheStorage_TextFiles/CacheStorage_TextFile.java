@@ -4,9 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.Vector;
 
-public class CacheStorage_TextFile {
+public class CacheStorage_TextFile extends CacheManager{
     private   String weatherReportsfile = "src/CacheStorage_TextFiles/weatherReports.txt";
     private   String airReportsfile = "src/CacheStorage_TextFiles/airReports.txt";
     private   String forecastReportsfile = "src/CacheStorage_TextFiles/forecastReports.txt";
@@ -30,7 +31,28 @@ public class CacheStorage_TextFile {
             }
     }
 
-    private String fetchReport(double latitude, double longitude,String defaultMsg,String filename) throws Exception{
+    private String getFileName(String reportType) throws Exception
+    {
+        switch (reportType)
+        {
+            case "Weather":
+                return weatherReportsfile;
+
+            case "Air":
+                return airReportsfile;
+
+            case "Forecast":
+                return forecastReportsfile;
+
+            default:
+                throw new Exception("Invalid report type: " + reportType);
+        }
+    }
+
+    public String fetchReport(double latitude, double longitude,String reportType) throws Exception{
+
+        String filename = getFileName(reportType);
+
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -47,16 +69,18 @@ public class CacheStorage_TextFile {
         } catch (Exception e) {
             throw e;
         }
-        return defaultMsg; // Return null if no matching data found
+        return null; // Return null if no matching data found
     }
 
-    private boolean storeReport(double latitude, double longitude, String WeatherReport,String filename) throws Exception
+    public boolean storeReport(double latitude, double longitude, String reportType,String report) throws Exception
     {
+        String filename = getFileName(reportType);
 
         File file = openFile(filename);
+
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file,true)))
         {
-            writer.write(latitude + "," + longitude + "," + WeatherReport);
+            writer.write(latitude + "," + longitude + "," + report);
             writer.newLine();
             System.out.println("Report written to " + filename + " successfully.");
             return true;
@@ -65,35 +89,6 @@ public class CacheStorage_TextFile {
         {
             throw e;
         }
-    }
-    public boolean storeWeatherReport(double latitude, double longitude, String WeatherReport) throws Exception
-    {
-        return storeReport(latitude,longitude,WeatherReport,weatherReportsfile);
-    }
-
-    public boolean storeAirReport(double latitude, double longitude, String airReport) throws Exception
-    {
-        return storeReport(latitude,longitude,airReport,airReportsfile);
-    }
-
-    public boolean storeForecast(double latitude, double longitude, String forecast) throws Exception
-    {
-        return storeReport(latitude,longitude,forecast,forecastReportsfile);
-    }
-
-    public String fetchWeatherReport(double latitude, double longitude) throws Exception
-    {
-        return fetchReport(latitude,longitude,"No weather report found",weatherReportsfile);
-    }
-
-    public String fetchAirReport(double latitude, double longitude) throws Exception
-    {
-        return fetchReport(latitude,longitude,"No air report found",airReportsfile);
-    }
-
-    public String fetchForecast(double latitude, double longitude) throws Exception
-    {
-        return fetchReport(latitude,longitude,"No forecast report found",forecastReportsfile);
     }
 
     public boolean storeLocation(String locationDetails) throws Exception
@@ -143,9 +138,14 @@ public class CacheStorage_TextFile {
         }
     }
 
-    public boolean overWriteWeatherReports(Vector<String> coordinates, Vector<String> reports) throws Exception
+    /*
+    public boolean overWriteReports(Vector<String> coordinates, Vector<String> reports, String reportType) throws Exception
     {
-        File file = openFile(weatherReportsfile);
+
+        String filename = getFileName(reportType);
+
+        File file = openFile(filename);
+        file.delete();
 
         double latitude, longitude;
         String[] coordinates_parts;
@@ -157,7 +157,7 @@ public class CacheStorage_TextFile {
                 coordinates_parts = coordinates.get(i).split(",",2);
                 latitude = Double.parseDouble(coordinates_parts[0]);
                 longitude = Double.parseDouble(coordinates_parts[1]);
-                storeWeatherReport(latitude,longitude,reports.get(i));
+                storeReport(latitude,longitude,filename,reports.get(i));
             }
             return true;
         }
@@ -168,5 +168,6 @@ public class CacheStorage_TextFile {
 
 
     }
+    */
 
 }

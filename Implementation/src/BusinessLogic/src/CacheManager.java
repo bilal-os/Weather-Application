@@ -5,9 +5,9 @@ import java.util.Vector;
 
 abstract public class CacheManager {
 
-   abstract public boolean storeReport(double latitude, double longitude, String reportType, String report) throws SQLException;
+   abstract public boolean storeReport(double latitude, double longitude, String reportType, String report) throws Exception;
 
-   abstract public String fetchReport(double latitude, double longitude, String reportType) throws SQLException;
+   abstract public String fetchReport(double latitude, double longitude, String reportType) throws Exception;
 
    abstract public boolean storeLocation(String locationDetails) throws Exception;
 
