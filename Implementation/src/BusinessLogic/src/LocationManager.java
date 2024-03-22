@@ -12,8 +12,8 @@ public class LocationManager {
   abstract static public class LocationManagerInterface{
         abstract public boolean addLocation(double latitude, double longitude) throws Exception;
         abstract public Vector<String> fetchStoredLocations() throws Exception;
-        abstract  public  String convertToCoordinates(String location) throws Exception;
-        abstract  public boolean verifyCoordinates(double latitude, double longitude) throws Exception;
+        abstract  public  double[] convertToCoordinates(String location) throws Exception;
+        abstract  public double[] verifyCoordinates(double latitude, double longitude) throws Exception;
 
   }
     static public class Location_Manager extends LocationManagerInterface{
@@ -62,12 +62,10 @@ public class LocationManager {
           }
       }
 
-      public String convertToCoordinates(String Location)  throws Exception{
-            StringBuilder coordinates = new StringBuilder();
-
-            String encodedLocation = URLEncoder.encode(Location);
-
+        public double[] convertToCoordinates(String Location) throws Exception {
             try {
+                String encodedLocation = URLEncoder.encode(Location);
+
                 String locationDetails = api.directGeoCoding(encodedLocation);
 
                 // Check if locationDetails is null or empty before proceeding
@@ -76,6 +74,8 @@ public class LocationManager {
                 }
 
                 JSONArray jsonArray = new JSONArray(locationDetails);
+
+                // Check if jsonArray is empty before proceeding
                 if (jsonArray.isEmpty()) {
                     throw new Exception("Empty location details returned");
                 }
@@ -84,41 +84,43 @@ public class LocationManager {
                 double latitude = jsonLocation.getDouble("lat");
                 double longitude = jsonLocation.getDouble("lon");
 
-                coordinates.append(latitude);
-                coordinates.append(", ");
-                coordinates.append(longitude);
+                // Return the latitude and longitude as an array of doubles
+                return new double[]{latitude, longitude};
 
-                return coordinates.toString();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 throw e;
             }
         }
 
-        public boolean verifyCoordinates(double latitude, double longitude) throws Exception {
+        public double[] verifyCoordinates(double latitude, double longitude) throws Exception {
+            try {
+                String locationDetails = api.reverseGeoCoding(latitude, longitude);
 
-         try {
-             String locationDetails = api.reverseGeoCoding(latitude, longitude);
+                // Check if locationDetails is null or empty before proceeding
+                if (locationDetails == null || locationDetails.isEmpty()) {
+                    throw new Exception("Empty location details returned");
+                }
 
-             // Check if locationDetails is null or empty before proceeding
-             if (locationDetails == null || locationDetails.isEmpty()) {
-                 throw new Exception("Empty location details returned");
-             }
+                JSONArray jsonArray = new JSONArray(locationDetails);
 
-             JSONArray jsonArray = new JSONArray(locationDetails);
+                // Check if jsonArray is empty before proceeding
+                if (jsonArray.isEmpty()) {
+                    throw new Exception("Empty location details returned");
+                }
 
-             // Check if jsonArray is empty before proceeding
-             if (jsonArray.isEmpty()) {
-                 throw new Exception("Empty location details returned");
-             }
+                // Assuming the locationDetails contains a single JSON object
+                JSONObject jsonLocation = jsonArray.getJSONObject(0);
 
-             return true;
-         }
-         catch (Exception e)
-         {
-             throw e;
-         }
+                // Update latitude and longitude based on the reverse geocoded values
+                latitude = jsonLocation.getDouble("lat");
+                longitude = jsonLocation.getDouble("lon");
+
+                // Return the updated latitude and longitude as a new array of doubles
+                return new double[]{latitude, longitude};
+
+            } catch (Exception e) {
+                throw e;
+            }
         }
     }
 
