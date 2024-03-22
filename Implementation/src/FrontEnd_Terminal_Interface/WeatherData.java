@@ -5,63 +5,62 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
 
 public class WeatherData {
 
-    private Weather weather;
-    private Main main;
-    private int visibility;
-    private Wind wind;
-    private Rain rain;
-    private Snow snow;
-    private Clouds clouds;
-    private long dt;
-    private Sys sys;
-    private int timezone;
-    private String name;
+    public String main;
+    public String description;
+    public String icon;
+    public double temp;
+    public double feels_like;
+    public double temp_min;
+    public double temp_max;
+    public int pressure;
+    public int humidity;
+    public int sea_level;
+    public int grnd_level;
+    public int visibility;
+    public long dt;
+    public int timezone;
+    public String name;
+    public double speed;
+    public int deg;
+    public double gust;
+    public double rainh1;
+    public double snowh1;
+    public int cloudsall;
 
+    public String country;
+    public long sunrise;
+    public long sunset;
 
-    private static class Weather {
-        private String main;
-        private String description;
-        private String icon;
+    public WeatherData() {
+        main = "";
+        description = "";
+        icon = "";
+        temp = 0.0;
+        feels_like = 0.0;
+        temp_min = 0.0;
+        temp_max = 0.0;
+        pressure = 0;
+        humidity = 0;
+        sea_level = 0;
+        grnd_level = 0;
+        visibility = 0;
+        dt = 0;
+        timezone = 0;
+        name = "";
+        speed = 0.0;
+        deg = 0;
+        gust = 0.0;
+        rainh1 = 0.0;
+        snowh1 = 0.0;
+        cloudsall = 0;
+        country = "";
+        sunrise = 0;
+        sunset = 0;
     }
-
-    private static class Main {
-        private double temp;
-        private double feels_like;
-        private double temp_min;
-        private double temp_max;
-        private int pressure;
-        private int humidity;
-        private int sea_level;
-        private int grnd_level;
-    }
-
-    private static class Wind {
-        private double speed;
-        private int deg;
-        private double gust;
-    }
-
-    private static class Rain {
-        private double h1;
-    }
-
-    private static class Snow {
-        private double h1;
-    }
-
-    private static class Clouds {
-        private int all;
-    }
-
-    private static class Sys {
-        private String country;
-        private long sunrise;
-        private long sunset;
-    }
-
 
     public void formatData(String weatherReport) throws Exception {
         try {
@@ -72,24 +71,22 @@ public class WeatherData {
                 JSONArray weatherArray = report.getJSONArray("weather");
                 JSONObject weatherObj = weatherArray.getJSONObject(0);
                 if (weatherObj != null) {
-                    weather = new Weather();
-                    weather.main = weatherObj.optString("main");
-                    weather.description = weatherObj.optString("description");
-                    weather.icon = weatherObj.optString("icon");
+                    main = weatherObj.optString("main");
+                    description = weatherObj.optString("description");
+                    icon = weatherObj.optString("icon");
                 }
 
                 // Initialize Main
                 JSONObject mainObj = report.optJSONObject("main");
                 if (mainObj != null) {
-                    main = new Main();
-                    main.temp = mainObj.optDouble("temp");
-                    main.feels_like = mainObj.optDouble("feels_like");
-                    main.temp_min = mainObj.optDouble("temp_min");
-                    main.temp_max = mainObj.optDouble("temp_max");
-                    main.pressure = mainObj.optInt("pressure");
-                    main.humidity = mainObj.optInt("humidity");
-                    main.sea_level = mainObj.optInt("sea_level");
-                    main.grnd_level = mainObj.optInt("grnd_level");
+                    temp = mainObj.optDouble("temp");
+                    feels_like = mainObj.optDouble("feels_like");
+                    temp_min = mainObj.optDouble("temp_min");
+                    temp_max = mainObj.optDouble("temp_max");
+                    pressure = mainObj.optInt("pressure");
+                    humidity = mainObj.optInt("humidity");
+                    sea_level = mainObj.optInt("sea_level");
+                    grnd_level = mainObj.optInt("grnd_level");
                 }
 
                 visibility = report.optInt("visibility");
@@ -97,31 +94,27 @@ public class WeatherData {
                 // Initialize Wind
                 JSONObject windObj = report.optJSONObject("wind");
                 if (windObj != null) {
-                    wind = new Wind();
-                    wind.speed = windObj.optDouble("speed");
-                    wind.deg = windObj.optInt("deg");
-                    wind.gust = windObj.optDouble("gust");
+                   speed = windObj.optDouble("speed");
+                    deg = windObj.optInt("deg");
+                    gust = windObj.optDouble("gust");
                 }
 
                 // Initialize Rain
                 JSONObject rainObj = report.optJSONObject("rain");
                 if (rainObj != null) {
-                    rain = new Rain();
-                    rain.h1 = rainObj.optDouble("1h");
+                    rainh1 = rainObj.optDouble("1h");
                 }
 
                 // Initialize Snow
                 JSONObject snowObj = report.optJSONObject("snow");
                 if (snowObj != null) {
-                    snow = new Snow();
-                    snow.h1 = snowObj.optDouble("1h");
+                    snowh1 = snowObj.optDouble("1h");
                 }
 
                 // Initialize Clouds
                 JSONObject cloudsObj = report.optJSONObject("clouds");
                 if (cloudsObj != null) {
-                    clouds = new Clouds();
-                    clouds.all = cloudsObj.optInt("all");
+                    cloudsall = cloudsObj.optInt("all");
                 }
 
                 dt = report.optLong("dt");
@@ -129,10 +122,9 @@ public class WeatherData {
                 // Initialize Sys
                 JSONObject sysObj = report.optJSONObject("sys");
                 if (sysObj != null) {
-                    sys = new Sys();
-                    sys.country = sysObj.optString("country");
-                    sys.sunrise = sysObj.optLong("sunrise");
-                    sys.sunset = sysObj.optLong("sunset");
+                    country = sysObj.optString("country");
+                    sunrise = sysObj.optLong("sunrise");
+                    sunset = sysObj.optLong("sunset");
                 }
 
                 timezone = report.optInt("timezone");
@@ -142,88 +134,11 @@ public class WeatherData {
         }
     }
 
-    public void showWeather() {
-        try {
-            System.out.println("Weather Information for " + name);
 
-            if (weather != null) {
-                System.out.println("Weather conditions: " + weather.description);
-            }
-
-            if (main != null) {
-                System.out.println("Temperature: " + main.temp + "°F");
-                System.out.println("Feels like: " + main.feels_like + "°F");
-                System.out.println("Min temperature: " + main.temp_min + "°F");
-                System.out.println("Max temperature: " + main.temp_max + "°F");
-                System.out.println("Pressure: " + main.pressure + " hPa");
-                System.out.println("Humidity: " + main.humidity + "%");
-            }
-
-            if (visibility > 0) {
-                System.out.println("Visibility: " + visibility + " meters");
-            }
-
-            if (wind != null) {
-                System.out.println("Wind speed: " + wind.speed + " m/s");
-                System.out.println("Wind direction: " + wind.deg + "°");
-                System.out.println("Wind gust: " + wind.gust + "°");
-            }
-
-            // Interpretation based on temperature and humidity
-            if (main != null && main.temp != 0) {
-                if (main.temp > 25) {
-                    System.out.println("It's quite warm today.");
-                } else if (main.temp < 10) {
-                    System.out.println("It's chilly outside.");
-                } else {
-                    System.out.println("The temperature is moderate.");
-                }
-            }
-
-            if (main != null && main.humidity != 0) {
-                if (main.humidity > 70) {
-                    System.out.println("It's humid.");
-                } else if (main.humidity < 30) {
-                    System.out.println("The air is dry.");
-                }
-            }
-
-            if (wind != null && wind.speed > 0) {
-                if (wind.speed > 10) {
-                    System.out.println("It's windy today.");
-                }
-            }
-
-            // Print rain if available
-            if (rain != null && rain.h1 > 0) {
-                System.out.println("Rainfall in the last hour: " + rain.h1 + " mm");
-            }
-
-            // Print snow if available
-            if (snow != null && snow.h1 > 0) {
-                System.out.println("Snowfall in the last hour: " + snow.h1 + " mm");
-            }
-
-            // Additional information
-            System.out.println("Timezone: GMT" + (timezone >= 0 ? "+" : "") + (timezone / 3600));
-            if (sys != null) {
-                System.out.println("Sunrise time: " + new Date(sys.sunrise * 1000));
-                System.out.println("Sunset time: " + new Date(sys.sunset * 1000));
-            }
-            System.out.println("Last update time: " + new Date(dt * 1000));
-            System.out.println("Press '1' to exit.");
-
-            Scanner scanner = new Scanner(System.in);
-            while (true) {
-                String userInput = scanner.nextLine();
-                if (userInput.equalsIgnoreCase("1")) {
-                    break;
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public String getReadableDate() {
+        Date date = new Date(dt * 1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
     }
 
 }

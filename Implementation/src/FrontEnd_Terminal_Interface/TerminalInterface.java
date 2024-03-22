@@ -3,130 +3,173 @@ package FrontEnd_Terminal_Interface;
 import BusinessLogic.src.DataManager;
 import BusinessLogic.src.LocationManager;
 
-
-import java.util.Vector;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class TerminalInterface {
 
-    private Vector<String> storedLocations;
-    private DataManager.DataManagerInterface dataManagerInterface;
-    private LocationManager.LocationManagerInterface locationManagerInterface;
+    private Vector<String> storedLocations ;
 
-    private CurrentWeatherWindow currentWeatherWindow;
-    private ForecastWindow forecastWindow;
+    private  DataManager.DataManagerInterface dataManagerInterface;
+    private  LocationManager.LocationManagerInterface locationManagerInterface;
+    private  CurrentWeatherWindow currentWeatherWindow;
+    private ForeCastWindow forecastWindow;
+    private AirReportWindow airReportWindow;
 
     public TerminalInterface(DataManager.DataManagerInterface dataManagerInterface, LocationManager.LocationManagerInterface locationManagerInterface) {
-        storedLocations = new Vector<>();
-        this.dataManagerInterface=dataManagerInterface;
-        this.locationManagerInterface=locationManagerInterface;
-        currentWeatherWindow = new CurrentWeatherWindow();
-        forecastWindow = new ForecastWindow();
+
+        try{
+        this.dataManagerInterface = dataManagerInterface;
+        this.locationManagerInterface = locationManagerInterface;
+        this.currentWeatherWindow = new CurrentWeatherWindow();
+        this.forecastWindow = new ForeCastWindow();
+        this.airReportWindow = new AirReportWindow();
+        storedLocations = locationManagerInterface.fetchStoredLocations();}
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void showTerminal() {
         Scanner scanner = new Scanner(System.in);
-        boolean exit = false;
-        int option;
-
-        do {
-            System.out.println("Press 1: Show Current Weather of a location");
-            System.out.println("Press 2: Show Air Report of a location");
-            System.out.println("Press 3: Show Forecast Report of a location");
-            System.out.println("Press 4: To exit");
-            option = scanner.nextInt();
-
-            switch (option) {
-                case 1:
-                    showReport(scanner,"Weather");
-                    break;
-                case 2:
-                    showReport(scanner,"Air");
-                    break;
-                case 3:
-                    showReport(scanner,"Forecast");
-                    break;
-                case 4:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Invalid option. Please try again.");
+        try {
+            boolean exit = false;
+            while (!exit) {
+                System.out.println("Press 1: Show Current Weather of a location");
+                System.out.println("Press 2: Show Air Report of a location");
+                System.out.println("Press 3: Show Forecast Report of a location");
+                System.out.println("Press 4 to add a location");
+                System.out.println("Press 5 show stored locations");
+                System.out.println("Press 6: To exit");
+                int option = scanner.nextInt();
+                switch (option) {
+                    case 1, 2, 3 -> showReport(scanner, option);
+                    case 4 -> addLocation(scanner);
+                    case 5 -> showStoredLocations();
+                    case 6 -> exit = true;
+                    default -> System.out.println("Invalid option. Please try again.");
+                }
             }
-        } while (!exit);
-
-        scanner.close();
-    }
-
-    public void showReport(Scanner scanner,String reportType) {
-        System.out.println("Press 1 to Enter City");
-        System.out.println("Press 2 to Enter Coordinates");
-        int option = scanner.nextInt();
-
-        switch (option) {
-            case 1:
-                showReportByCity(scanner,reportType);
-                break;
-            case 2:
-                showReportByCoordinates(scanner,reportType);
-                break;
-            default:
-                System.out.println("Invalid option. Please try again.");
+        } finally {
+            scanner.close();
         }
     }
 
-    private void showReportByCity(Scanner scanner,String reportType) {
+    private void showReport(Scanner scanner, int option) {
+        String reportType = switch (option) {
+            case 1 -> "Weather";
+            case 2 -> "Air";
+            case 3 -> "Forecast";
+            default -> throw new IllegalArgumentException("Invalid report type.");
+        };
+        System.out.println("Press 1 to Enter City\nPress 2 to Enter Coordinates");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1 -> processReport(reportType, getCoordinatesByCity(scanner));
+            case 2 -> processReport(reportType, getCoordinatesByCoordinates(scanner));
+            default -> System.out.println("Invalid option. Please try again.");
+        }
+    }
+
+    private double[] getCoordinatesByCity(Scanner scanner) {
         System.out.println("Enter the city name: ");
         String city = scanner.next();
-        String report;
-
-
         try {
-            System.out.println("Processing...");
-            double[] coordinates = locationManagerInterface.convertToCoordinates(city);
-            double latitude = coordinates[0];
-            double longitude = coordinates[1];
-            report = dataManagerInterface.fetchReport(latitude, longitude, reportType);
+            return locationManagerInterface.convertToCoordinates(city);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
 
-            if(reportType.equals("Weather"))
-            {
-                currentWeatherWindow.showCurrentWeather(report);
-            } else if (reportType.equals("Forecast")) {
-                forecastWindow.showForecasts(report);
+    private double[] getCoordinatesByCoordinates(Scanner scanner) {
+        System.out.println("Enter the latitude: ");
+        double latitude = scanner.nextDouble();
+        System.out.println("Enter the longitude: ");
+        double longitude = scanner.nextDouble();
+        try {
+            return locationManagerInterface.verifyCoordinates(latitude, longitude);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private void processReport(String reportType, double[] coordinates) {
+        if (coordinates == null) return;
+        try {
+            String report = dataManagerInterface.fetchReport(coordinates[0], coordinates[1], reportType);
+            switch (reportType) {
+                case "Weather" -> currentWeatherWindow.showWeather(report);
+                case "Forecast" -> forecastWindow.showForecasts(report);
+                case "Air" -> airReportWindow.showAirReport(report);
             }
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public void showReportByCoordinates(Scanner scanner,String reportType) {
-        String report;
-
-        try {
-            System.out.println("Enter the latitude: ");
-            double latitude = scanner.nextDouble();
-            System.out.println("Enter the longitude: ");
-            double longitude = scanner.nextDouble();
-            System.out.println("Processing...");
-
-            // Call verifyCoordinates method to ensure the validity of coordinates
-            double[] verifiedCoordinates = locationManagerInterface.verifyCoordinates(latitude, longitude);
-            latitude = verifiedCoordinates[0];
-            longitude = verifiedCoordinates[1];
-
-            report = dataManagerInterface.fetchReport(latitude, longitude, reportType);
-
-            if(reportType.equals("Weather"))
-            {
-                currentWeatherWindow.showCurrentWeather(report);
+    public void addLocation(Scanner scanner) {
+        System.out.println("Press 1 to Enter City\nPress 2 to Enter Coordinates");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1 -> {
+                double[] coordinates = getCoordinatesByCity(scanner);
+                if (coordinates != null) {
+                    try {
+                        if(!findInStoredLocations(coordinates[0],coordinates[1])) {
+                            locationManagerInterface.addLocation(coordinates[0], coordinates[1]);
+                            System.out.println("Location added successfully");
+                            storedLocations = locationManagerInterface.fetchStoredLocations();
+                        }
+                        else {
+                            System.out.println("Location already exists.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
             }
-            else if (reportType.equals("Forecast")) {
-                forecastWindow.showForecasts(report);
+            case 2 -> {
+                double[] coordinates = getCoordinatesByCoordinates(scanner);
+                if (coordinates != null) {
+                    try {
+                        if(!findInStoredLocations(coordinates[0],coordinates[1])) {
+                        locationManagerInterface.addLocation(coordinates[0], coordinates[1]);
+                        System.out.println("Location added successfully");
+                        storedLocations=locationManagerInterface.fetchStoredLocations();}
+                        else {
+                            System.out.println("Location already exists.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
             }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            default -> System.out.println("Invalid option. Please try again.");
         }
     }
+
+    private boolean findInStoredLocations(double latitude, double longitude)
+    {
+        String coordinatesToFind = String.format("Latitude: %.7f, Longitude: %.7f", latitude, longitude);
+        for (String location : storedLocations) {
+            if (location.contains(coordinatesToFind)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void showStoredLocations()
+    {
+        System.out.println("Stored Locations: ");
+        for (String storedLocation : storedLocations) {
+            System.out.println(storedLocation);
+        }
+    }
+
 
 
 }

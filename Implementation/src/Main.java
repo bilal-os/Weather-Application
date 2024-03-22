@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            CacheManager cacheManager = new CacheStorage();
+            CacheManager cacheManager = new CacheStorage_TextFile();
             DataManager.DataManagerInterface dataManagerInterface = new DataManager.Data_Manager(cacheManager);
             LocationManager.LocationManagerInterface locationManagerInterface = new LocationManager.Location_Manager(cacheManager);
             TerminalInterface terminalInterface = new TerminalInterface(dataManagerInterface,locationManagerInterface);

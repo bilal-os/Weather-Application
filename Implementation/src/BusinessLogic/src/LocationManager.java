@@ -30,17 +30,13 @@ public class LocationManager {
       }
       public boolean addLocation(double latitude, double longitude) throws Exception
       {
-          String weatherReport, airReport, foreCast, locationDetails;
+          String  locationDetails;
           try {
-          weatherReport = dataManager.fetchReport(latitude,longitude,"Weather");
-          airReport = dataManager.fetchReport(latitude,longitude,"Air");
-          foreCast = dataManager.fetchReport(latitude,longitude,"Forecast");
+          dataManager.fetchReport(latitude,longitude,"Weather");
+           dataManager.fetchReport(latitude,longitude,"Air");
+           dataManager.fetchReport(latitude,longitude,"Forecast");
           locationDetails = api.reverseGeoCoding(latitude,longitude);
 
-
-              cacheManager.storeReport(latitude, longitude, "Weather",weatherReport);
-              cacheManager.storeReport(latitude, longitude, "Air",airReport);
-              cacheManager.storeReport(latitude, longitude, "Forecast",foreCast);
               cacheManager.storeLocation(locationDetails);
 
               return true;
