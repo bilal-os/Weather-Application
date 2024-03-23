@@ -96,8 +96,8 @@ public class CacheStorage extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails) throws SQLException {
-        String sql = "INSERT INTO locations (cityName, latitude, longitude, country, state) VALUES (?, ?, ?, ?, ?)";
+    public boolean storeLocation(String locationDetails, Boolean current) throws SQLException {
+        String sql = "INSERT INTO locations (cityName, latitude, longitude, country, state, isCurrent) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             JSONArray jsonArray = new JSONArray(locationDetails);
             JSONObject jsonLocation = jsonArray.getJSONObject(0);
@@ -106,17 +106,18 @@ public class CacheStorage extends CacheManager{
             double longitude = jsonLocation.getDouble("lon");
             String country = jsonLocation.getString("country");
             String state = jsonLocation.optString("state", null);
+            int isCurrentValue = (current != null && current) ? 1 : 0; // Convert Boolean to int
             try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
                 pstmt.setString(1, cityName);
                 pstmt.setDouble(2, latitude);
                 pstmt.setDouble(3, longitude);
                 pstmt.setString(4, country);
                 pstmt.setString(5, state);
+                pstmt.setInt(6, isCurrentValue); // Set isCurrent value
                 int rowsInserted = pstmt.executeUpdate();
                 return rowsInserted > 0;
             }
         } catch (SQLException e) {
-
             throw e;
         }
     }
@@ -148,6 +149,35 @@ public class CacheStorage extends CacheManager{
         }
         return locations;
     }
+
+    public String fetchCurrentLocation() throws Exception {
+        String sql = "SELECT cityName, latitude, longitude, country, state FROM locations where isCurrent = 1";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) { // Check if there is at least one row in the result set
+                String cityName = rs.getString("cityName");
+                double latitude = rs.getDouble("latitude");
+                double longitude = rs.getDouble("longitude");
+                String country = rs.getString("country");
+                String state = rs.getString("state");
+
+                StringBuilder locationString = new StringBuilder("City: " + cityName);
+                if (state != null && !state.isEmpty()) {
+                    locationString.append(", State: ").append(state);
+                }
+                locationString.append(", Country: ").append(country)
+                        .append(", Latitude: ").append(latitude)
+                        .append(", Longitude: ").append(longitude);
+                return locationString.toString();
+            } else {
+                return null; // Return null if no current location found
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
+
 }
 
 

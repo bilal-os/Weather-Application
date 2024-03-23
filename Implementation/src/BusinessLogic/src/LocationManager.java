@@ -10,7 +10,7 @@ import java.util.Vector;
 public class LocationManager {
 
   abstract static public class LocationManagerInterface{
-        abstract public boolean addLocation(double latitude, double longitude) throws Exception;
+        abstract public boolean addLocation(double latitude, double longitude, Boolean current) throws Exception;
         abstract public Vector<String> fetchStoredLocations() throws Exception;
         abstract  public  double[] convertToCoordinates(String location) throws Exception;
         abstract  public double[] verifyCoordinates(double latitude, double longitude) throws Exception;
@@ -28,7 +28,7 @@ public class LocationManager {
         dataManager = new DataManager.Data_Manager(cacheManager);
         api = new APIService();
       }
-      public boolean addLocation(double latitude, double longitude) throws Exception
+      public boolean addLocation(double latitude, double longitude,Boolean current) throws Exception
       {
           String  locationDetails;
           try {
@@ -37,7 +37,7 @@ public class LocationManager {
            dataManager.fetchReport(latitude,longitude,"Forecast");
           locationDetails = api.reverseGeoCoding(latitude,longitude);
 
-              cacheManager.storeLocation(locationDetails);
+              cacheManager.storeLocation(locationDetails,current);
 
               return true;
           }

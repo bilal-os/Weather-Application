@@ -119,7 +119,7 @@ public class TerminalInterface {
                 if (coordinates != null) {
                     try {
                         if(!findInStoredLocations(coordinates[0],coordinates[1])) {
-                            locationManagerInterface.addLocation(coordinates[0], coordinates[1]);
+                            locationManagerInterface.addLocation(coordinates[0], coordinates[1],false);
                             System.out.println("Location added successfully");
                             storedLocations = locationManagerInterface.fetchStoredLocations();
                         }
@@ -136,7 +136,7 @@ public class TerminalInterface {
                 if (coordinates != null) {
                     try {
                         if(!findInStoredLocations(coordinates[0],coordinates[1])) {
-                        locationManagerInterface.addLocation(coordinates[0], coordinates[1]);
+                        locationManagerInterface.addLocation(coordinates[0], coordinates[1],false);
                         System.out.println("Location added successfully");
                         storedLocations=locationManagerInterface.fetchStoredLocations();}
                         else {

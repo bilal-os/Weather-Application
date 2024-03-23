@@ -93,7 +93,7 @@ public class CacheStorage_TextFile extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails) throws Exception {
+    public boolean storeLocation(String locationDetails,Boolean current) throws Exception {
         try {
             JSONArray jsonArray = new JSONArray(locationDetails);
             JSONObject jsonLocation = jsonArray.getJSONObject(0);
@@ -111,6 +111,11 @@ public class CacheStorage_TextFile extends CacheManager{
             if (state != null && !state.isEmpty()) {
                 locationBuilder.append(", State: ").append(state);
             }
+
+            if (current != null && current) {
+                locationBuilder.append(", current");
+            }
+
             writer.write(locationBuilder.toString());
             writer.newLine();
             System.out.println("Location details written successfully.");
@@ -141,6 +146,32 @@ public class CacheStorage_TextFile extends CacheManager{
             throw e;
         }
     }
+
+    public String fetchCurrentLocation() throws Exception {
+        try {
+            File file = openFile(locationsfile);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            StringBuilder currentLocation = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("current")) {
+                    currentLocation.append(line).append("\n");
+                }
+            }
+            reader.close();
+
+            // Check if currentLocation is empty
+            if (currentLocation.length() == 0) {
+                return null; // Return null if no current location found
+            } else {
+                return currentLocation.toString();
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+
 
     /*
     public boolean overWriteReports(Vector<String> coordinates, Vector<String> reports, String reportType) throws Exception
