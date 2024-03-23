@@ -33,27 +33,37 @@ public class LocationManager {
           String  locationDetails;
           try {
 
-              if(!findInStoredLocations(latitude,longitude)) {
-
-                  dataManager.fetchReport(latitude, longitude, "Weather");
-                  dataManager.fetchReport(latitude, longitude, "Air");
-                  dataManager.fetchReport(latitude, longitude, "Forecast");
-                  locationDetails = api.reverseGeoCoding(latitude, longitude);
-
-                  cacheManager.storeLocation(locationDetails, current,false);
-
-                  return true;
-              }
-
-              else if(current)
+              if(current)
               {
-                  locationDetails = api.reverseGeoCoding(latitude, longitude);
-                  cacheManager.storeLocation(locationDetails, current,true);
-                  return true;
+                  if(cacheManager.fetchCurrentLocation()==null)
+                  {
+                      locationDetails = api.reverseGeoCoding(latitude, longitude);
+                      cacheManager.storeLocation(locationDetails, current,true);
+                      return true;
+                  }
+
+                  else
+                  {
+                      throw new Exception("Current Location already set");
+                  }
+
               }
 
               else {
-                  throw new Exception("Location already exists");
+                  if(!findInStoredLocations(latitude,longitude))
+                  {
+                      dataManager.fetchReport(latitude, longitude, "Weather");
+                      dataManager.fetchReport(latitude, longitude, "Air");
+                      dataManager.fetchReport(latitude, longitude, "Forecast");
+                      locationDetails = api.reverseGeoCoding(latitude, longitude);
+
+                      cacheManager.storeLocation(locationDetails, current,false);
+
+                      return true;
+                  }
+                  else {
+                      throw new Exception("Location already exists");
+                  }
               }
 
           }

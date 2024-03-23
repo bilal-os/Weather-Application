@@ -93,7 +93,7 @@ public class CacheStorage_TextFile extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails, Boolean current, Boolean currentExistence) throws Exception {
+    public boolean storeLocation(String locationDetails, Boolean current, Boolean locationExists) throws Exception {
 
         try {
             JSONArray jsonArray = new JSONArray(locationDetails);
@@ -108,21 +108,21 @@ public class CacheStorage_TextFile extends CacheManager{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder fileContents = new StringBuilder();
             String line;
-            boolean locationExists = false;
+            boolean locationExists1 = false;
 
             while ((line = reader.readLine()) != null) {
                 if (line.contains(cityName) && line.contains(String.valueOf(latitude)) && line.contains(String.valueOf(longitude))) {
-                    if (currentExistence) {
+                    if (locationExists) {
                         // Append ", current" at the end of the existing line
                         line += ", current";
                     }
-                    locationExists = true;
+                    locationExists1 = true;
                 }
                 fileContents.append(line).append("\n");
             }
             reader.close();
 
-            if (!locationExists) {
+            if (!locationExists1) {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
                 StringBuilder locationBuilder = new StringBuilder();
                 locationBuilder.append("City: ").append(cityName).append(", Country: ").append(country).append(", Latitude: ").append(latitude).append(", Longitude: ").append(longitude);

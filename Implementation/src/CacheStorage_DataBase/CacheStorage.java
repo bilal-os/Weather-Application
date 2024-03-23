@@ -96,9 +96,9 @@ public class CacheStorage extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails, Boolean current, Boolean currentExistence) throws SQLException {
-        if (currentExistence) {
-            String updateSql = "UPDATE locations SET isCurrent = 1 WHERE laltitude = ? AND longitude = ?";
+    public boolean storeLocation(String locationDetails, Boolean current, Boolean locationExists) throws SQLException {
+        if (locationExists) {
+            String updateSql = "UPDATE locations SET isCurrent = 1 WHERE latitude = ? AND longitude = ?";
             try {
                 JSONArray jsonArray = new JSONArray(locationDetails);
                 JSONObject jsonLocation = jsonArray.getJSONObject(0);
