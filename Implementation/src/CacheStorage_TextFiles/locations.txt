@@ -1,4 +1,2 @@
 City: Lahore, Country: PK, Latitude: 31.5656822, Longitude: 74.3141829, State: Punjab
-City: London, Country: GB, Latitude: 51.5073219, Longitude: -0.1276474, State: England
-City: Karachi, Country: PK, Latitude: 24.8546842, Longitude: 67.0207055, State: Sindh
 City: Karachi, Country: PK, Latitude: 24.8546842, Longitude: 67.0207055, State: Sindh, current

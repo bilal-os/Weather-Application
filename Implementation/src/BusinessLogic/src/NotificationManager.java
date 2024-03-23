@@ -5,6 +5,9 @@
     import FrontEnd_Terminal_Interface.TerminalInterface;
     import org.json.JSONObject;
 
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
+
     public class NotificationManager {
         private Boolean enableStatus;
         private String currentLocation;
@@ -20,49 +23,76 @@
             coordinates = null;
         }
 
-        public String enableNotification() throws Exception
-        {
+        public String enableNotification() throws Exception {
             try {
                 currentLocation = cacheManager.fetchCurrentLocation();
                 if (currentLocation != null) {
                     coordinates = extractLongitudeLatitude(currentLocation);
-                    enableStatus=true;
+                    enableStatus = true;
                     return "Notification Enabled";
-                }
-                return " Set a current location";
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public String raiseNotification() throws Exception {
-            try {
-                StringBuilder notification = new StringBuilder("Notification Alert:");
-
-                if (enableStatus) {
-                    String weatherAssessmentResult = weatherAssessment(cacheManager.fetchReport(coordinates[0], coordinates[1], "Weather"));
-                    String airAssessmentResult = airAssessment(cacheManager.fetchReport(coordinates[0], coordinates[1], "Air"));
-
-                    if (weatherAssessmentResult != null || airAssessmentResult != null) {
-                        if (weatherAssessmentResult != null) {
-                            notification.append(weatherAssessmentResult);
-                        }
-                        if (airAssessmentResult != null) {
-                            notification.append(airAssessmentResult);
-                        }
-                        return notification.toString();
-                    } else {
-                        return null; // Both assessments returned null
-                    }
                 } else {
-                    return "Enable the notification."; // Notification is not enabled
+                    throw new Exception("Set a current location");
                 }
             } catch (Exception e) {
                 throw e;
             }
         }
+
+        private String extractValue(String input, String key) {
+            String pattern = key + ":\\s*([^,]+)";
+            Pattern regex = Pattern.compile(pattern);
+            Matcher matcher = regex.matcher(input);
+            if (matcher.find()) {
+                return matcher.group(1).trim();
+            }
+            return null;
+        }
+
+        public String raiseNotification() throws Exception {
+            try {
+                StringBuilder notification = new StringBuilder("Weather Alert:\n");
+
+                String city = extractValue(currentLocation, "City");
+                String state = extractValue(currentLocation, "State");
+                String country = extractValue(currentLocation, "Country");
+
+                // Append location details
+                notification.append("Location Details:\n");
+                notification.append("City: ").append(city).append("\n");
+                if (state != null) {
+                    notification.append("State: ").append(state).append("\n");
+                }
+                if (country != null) {
+                    notification.append("Country: ").append(country).append("\n");
+                }
+
+                if (enableStatus) {
+                    String weatherAssessmentResult = weatherAssessment(cacheManager.fetchReport(coordinates[0], coordinates[1], "Weather"));
+                    String airAssessmentResult = airAssessment(cacheManager.fetchReport(coordinates[0], coordinates[1], "Air"));
+
+                    // Append weather assessments
+                    notification.append("\nWeather Assessment:\n");
+                    if (weatherAssessmentResult != null) {
+                        notification.append(weatherAssessmentResult).append("\n");
+                    } else {
+                        notification.append("No significant weather conditions.\n");
+                    }
+                    // Append air assessments
+                    notification.append("\nAir Quality Assessment:\n");
+                    if (airAssessmentResult != null) {
+                        notification.append(airAssessmentResult).append("\n");
+                    } else {
+                        notification.append("No significant air quality issues.\n");
+                    }
+                    return notification.toString();
+                } else {
+                    throw new Exception("Enable notification");
+                }
+            } catch (Exception e) {
+                throw e;
+            }
+        }
+
 
         private String weatherAssessment(String weatherreport) throws Exception{
             StringBuilder assessment = new StringBuilder();
@@ -148,7 +178,7 @@
             return assessment.length() > 0 ? assessment.toString() : null;
         }
 
-        public double[] extractLongitudeLatitude(String currentLocation) {
+        private double[] extractLongitudeLatitude(String currentLocation) {
             // Initialize latitude and longitude variables
             double latitude = Double.NaN;
             double longitude = Double.NaN;
