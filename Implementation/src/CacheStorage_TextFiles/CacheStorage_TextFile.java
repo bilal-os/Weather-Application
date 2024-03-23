@@ -53,7 +53,9 @@ public class CacheStorage_TextFile extends CacheManager{
 
         String filename = getFileName(reportType);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+        File file = openFile(filename);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", 3);
@@ -91,9 +93,8 @@ public class CacheStorage_TextFile extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails) throws Exception
-    {
-        try{
+    public boolean storeLocation(String locationDetails) throws Exception {
+        try {
             JSONArray jsonArray = new JSONArray(locationDetails);
             JSONObject jsonLocation = jsonArray.getJSONObject(0);
             String cityName = jsonLocation.getString("name");
@@ -105,15 +106,18 @@ public class CacheStorage_TextFile extends CacheManager{
             File file = openFile(locationsfile);
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-            writer.write(cityName + "," + latitude + "," + longitude + "," + country + "," + state);
+            StringBuilder locationBuilder = new StringBuilder();
+            locationBuilder.append("City: ").append(cityName).append(", Country: ").append(country).append(", Latitude: ").append(latitude).append(", Longitude: ").append(longitude);
+            if (state != null && !state.isEmpty()) {
+                locationBuilder.append(", State: ").append(state);
+            }
+            writer.write(locationBuilder.toString());
             writer.newLine();
-            System.out.println("Location details written to " + locationDetails + " successfully.");
+            System.out.println("Location details written successfully.");
             writer.close();
             return true;
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw e;
         }
     }

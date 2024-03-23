@@ -3,29 +3,29 @@ use databaseCache
 
 CREATE TABLE WeatherReports (
         id INT IDENTITY(1,1),
-    lat DECIMAL(8, 6),
-    lon DECIMAL(9, 6),
+    lat float,
+    lon float,
     report NVARCHAR(MAX),
     CONSTRAINT PK_WeatherReport PRIMARY KEY (lat, lon)
 );
 
 CREATE TABLE AirReports (
         id INT IDENTITY(1,1),
-    lat DECIMAL(8, 6),
-    lon DECIMAL(9, 6),
+    lat float,
+    lon float,
     report NVARCHAR(MAX),
     CONSTRAINT PK_airReport PRIMARY KEY (lat, lon)
 );
 
 CREATE TABLE ForecastReports (
         id INT IDENTITY(1,1),
-    lat DECIMAL(8, 6),
-    lon DECIMAL(9, 6),
+    lat float,
+    lon float,
     report NVARCHAR(MAX),
     CONSTRAINT PK_ForeCast PRIMARY KEY (lat, lon)
 );
 
-CREATE TABLE Locations (
+CREATE TABLE Locations ( 
     id INT IDENTITY(1,1),
     cityName NVARCHAR(MAX),
     latitude float,
@@ -37,16 +37,24 @@ CREATE TABLE Locations (
 );
 
 
-select * from WeatherReport;
+select * from WeatherReports;
 
-SELECT * from airReport
+SELECT * from airReports
 
-SELECT * from forecast
+SELECT * from ForecastReports
 
 select * from locations
 
-drop table WeatherReport
-drop TABLE airReport
-drop TABLE forecast
+TRUNCATE table WeatherReports
+
+TRUNCATE table ForecastREports
+
+TRUNCATE table airReports
+
+truncate table locations
+
+drop table WeatherReports
+drop TABLE airReports
+drop TABLE forecastreports
 drop TABLE locations
 

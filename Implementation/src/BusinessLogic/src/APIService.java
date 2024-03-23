@@ -14,6 +14,7 @@ public class APIService {
     private String baseDirectGeoURL = "http://api.openweathermap.org/geo/1.0/direct?";
 
     private String buildURL(String baseURL, double latitude, double longitude) {
+
         return baseURL + "lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
     }
 

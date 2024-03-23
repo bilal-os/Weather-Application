@@ -132,20 +132,22 @@ public class CacheStorage extends CacheManager{
                 double longitude = rs.getDouble("longitude");
                 String country = rs.getString("country");
                 String state = rs.getString("state");
-                StringBuilder locationString = new StringBuilder(cityName + ", " + country);
+
+                StringBuilder locationString = new StringBuilder("City: " + cityName);
                 if (state != null && !state.isEmpty()) {
-                    locationString.append(", ").append(state);
+                    locationString.append(", State: ").append(state);
                 }
-                locationString.append(" (Latitude: ").append(latitude).append(", Longitude: ").append(longitude).append(")");
+                locationString.append(", Country: ").append(country)
+                        .append(", Latitude: ").append(latitude)
+                        .append(", Longitude: ").append(longitude);
+
                 locations.add(locationString.toString());
             }
-            return locations;
         } catch (SQLException e) {
-
             throw e;
         }
+        return locations;
     }
-
 }
 
 
