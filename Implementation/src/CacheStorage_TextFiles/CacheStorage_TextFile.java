@@ -93,7 +93,8 @@ public class CacheStorage_TextFile extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails) throws Exception {
+    public boolean storeLocation(String locationDetails, Boolean current, Boolean locationExists) throws Exception {
+
         try {
             JSONArray jsonArray = new JSONArray(locationDetails);
             JSONObject jsonLocation = jsonArray.getJSONObject(0);
@@ -104,24 +105,50 @@ public class CacheStorage_TextFile extends CacheManager{
             String state = jsonLocation.optString("state", null);
 
             File file = openFile(locationsfile);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            StringBuilder fileContents = new StringBuilder();
+            String line;
+            boolean locationExists1 = false;
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-            StringBuilder locationBuilder = new StringBuilder();
-            locationBuilder.append("City: ").append(cityName).append(", Country: ").append(country).append(", Latitude: ").append(latitude).append(", Longitude: ").append(longitude);
-            if (state != null && !state.isEmpty()) {
-                locationBuilder.append(", State: ").append(state);
+            while ((line = reader.readLine()) != null) {
+                if (line.contains(cityName) && line.contains(String.valueOf(latitude)) && line.contains(String.valueOf(longitude))) {
+                    if (locationExists) {
+                        // Append ", current" at the end of the existing line
+                        line += ", current";
+                    }
+                    locationExists1 = true;
+                }
+                fileContents.append(line).append("\n");
             }
-            writer.write(locationBuilder.toString());
-            writer.newLine();
-            System.out.println("Location details written successfully.");
-            writer.close();
+            reader.close();
+
+            if (!locationExists1) {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                StringBuilder locationBuilder = new StringBuilder();
+                locationBuilder.append("City: ").append(cityName).append(", Country: ").append(country).append(", Latitude: ").append(latitude).append(", Longitude: ").append(longitude);
+                if (state != null && !state.isEmpty()) {
+                    locationBuilder.append(", State: ").append(state);
+                }
+                if (current != null && current) {
+                    locationBuilder.append(", current");
+                }
+                writer.write(locationBuilder.toString());
+                writer.newLine();
+                writer.close();
+                System.out.println("Location details written successfully.");
+            } else {
+                // Rewrite the file with updated contents
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(fileContents.toString());
+                writer.close();
+                System.out.println("Location details updated successfully.");
+            }
             return true;
 
         } catch (Exception e) {
             throw e;
         }
     }
-
     public Vector<String> fetchStoredLocations() throws Exception
     {
         Vector<String> locations = new Vector<>();
@@ -141,6 +168,32 @@ public class CacheStorage_TextFile extends CacheManager{
             throw e;
         }
     }
+
+    public String fetchCurrentLocation() throws Exception {
+        try {
+            File file = openFile(locationsfile);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            StringBuilder currentLocation = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("current")) {
+                    currentLocation.append(line).append("\n");
+                }
+            }
+            reader.close();
+
+            // Check if currentLocation is empty
+            if (currentLocation.length() == 0) {
+                return null; // Return null if no current location found
+            } else {
+                return currentLocation.toString();
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+
 
     /*
     public boolean overWriteReports(Vector<String> coordinates, Vector<String> reports, String reportType) throws Exception

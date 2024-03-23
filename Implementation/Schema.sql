@@ -32,7 +32,9 @@ CREATE TABLE Locations (
     longitude float,
     country NVARCHAR(MAX),
     state NVARCHAR(MAX),
+    isCurrent BIT, -- Using BIT for boolean value
         CONSTRAINT PK_locations PRIMARY KEY (latitude, longitude)
+    
 
 );
 

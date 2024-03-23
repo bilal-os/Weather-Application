@@ -9,9 +9,11 @@ abstract public class CacheManager {
 
    abstract public String fetchReport(double latitude, double longitude, String reportType) throws Exception;
 
-   abstract public boolean storeLocation(String locationDetails) throws Exception;
+   abstract public boolean storeLocation(String locationDetails, Boolean current, Boolean locationExists) throws Exception;
 
    abstract public Vector<String> fetchStoredLocations() throws Exception;
+
+   abstract public String fetchCurrentLocation() throws Exception;
 
 
 }

@@ -2,6 +2,7 @@ package FrontEnd_Terminal_Interface;
 
 import BusinessLogic.src.DataManager;
 import BusinessLogic.src.LocationManager;
+import BusinessLogic.src.NotificationManager;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -16,7 +17,12 @@ public class TerminalInterface {
     private ForeCastWindow forecastWindow;
     private AirReportWindow airReportWindow;
 
-    public TerminalInterface(DataManager.DataManagerInterface dataManagerInterface, LocationManager.LocationManagerInterface locationManagerInterface) {
+    private NotificationManager notificationManager;
+
+
+    String notification;
+
+    public TerminalInterface(DataManager.DataManagerInterface dataManagerInterface, LocationManager.LocationManagerInterface locationManagerInterface, NotificationManager notificationManager) {
 
         try{
         this.dataManagerInterface = dataManagerInterface;
@@ -24,6 +30,8 @@ public class TerminalInterface {
         this.currentWeatherWindow = new CurrentWeatherWindow();
         this.forecastWindow = new ForeCastWindow();
         this.airReportWindow = new AirReportWindow();
+        this.notificationManager=notificationManager;
+        notification=null;
         storedLocations = locationManagerInterface.fetchStoredLocations();}
         catch (Exception e)
         {
@@ -31,29 +39,50 @@ public class TerminalInterface {
         }
     }
 
-    public void showTerminal() {
+    public void showTerminal() throws Exception {
         Scanner scanner = new Scanner(System.in);
         try {
             boolean exit = false;
             while (!exit) {
+                if(notification!=null)
+                {
+                    System.out.println(notification);
+                }
                 System.out.println("Press 1: Show Current Weather of a location");
                 System.out.println("Press 2: Show Air Report of a location");
                 System.out.println("Press 3: Show Forecast Report of a location");
                 System.out.println("Press 4 to add a location");
                 System.out.println("Press 5 show stored locations");
-                System.out.println("Press 6: To exit");
+                System.out.println("Press 6 to set a current location");
+                System.out.println("Press 7 to enable notification");
+                System.out.println("Press 8: To exit");
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1, 2, 3 -> showReport(scanner, option);
-                    case 4 -> addLocation(scanner);
+                    case 4 -> addLocation(scanner,false);
                     case 5 -> showStoredLocations();
-                    case 6 -> exit = true;
+                    case 6 -> addLocation(scanner,true);
+                    case 7 -> enableNotification();
+                    case 8 -> exit = true;
                     default -> System.out.println("Invalid option. Please try again.");
                 }
             }
         } finally {
             scanner.close();
         }
+    }
+
+    public void enableNotification()
+    {
+        try {
+            System.out.println(notificationManager.enableNotification());
+            notification=notificationManager.raiseNotification();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void showReport(Scanner scanner, int option) {
@@ -110,7 +139,7 @@ public class TerminalInterface {
         }
     }
 
-    public void addLocation(Scanner scanner) {
+    public void addLocation(Scanner scanner,Boolean current) {
         System.out.println("Press 1 to Enter City\nPress 2 to Enter Coordinates");
         int choice = scanner.nextInt();
         switch (choice) {
@@ -118,14 +147,10 @@ public class TerminalInterface {
                 double[] coordinates = getCoordinatesByCity(scanner);
                 if (coordinates != null) {
                     try {
-                        if(!findInStoredLocations(coordinates[0],coordinates[1])) {
-                            locationManagerInterface.addLocation(coordinates[0], coordinates[1]);
+                            locationManagerInterface.addLocation(coordinates[0], coordinates[1],current);
                             System.out.println("Location added successfully");
                             storedLocations = locationManagerInterface.fetchStoredLocations();
-                        }
-                        else {
-                            System.out.println("Location already exists.");
-                        }
+
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -135,13 +160,10 @@ public class TerminalInterface {
                 double[] coordinates = getCoordinatesByCoordinates(scanner);
                 if (coordinates != null) {
                     try {
-                        if(!findInStoredLocations(coordinates[0],coordinates[1])) {
-                        locationManagerInterface.addLocation(coordinates[0], coordinates[1]);
+                        locationManagerInterface.addLocation(coordinates[0], coordinates[1],false);
                         System.out.println("Location added successfully");
-                        storedLocations=locationManagerInterface.fetchStoredLocations();}
-                        else {
-                            System.out.println("Location already exists.");
-                        }
+                        storedLocations=locationManagerInterface.fetchStoredLocations();
+
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -151,16 +173,6 @@ public class TerminalInterface {
         }
     }
 
-    private boolean findInStoredLocations(double latitude, double longitude)
-    {
-        String coordinatesToFind = String.format("Latitude: %.7f, Longitude: %.7f", latitude, longitude);
-        for (String location : storedLocations) {
-            if (location.contains(coordinatesToFind)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void showStoredLocations()
     {

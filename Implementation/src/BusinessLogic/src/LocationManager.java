@@ -10,7 +10,7 @@ import java.util.Vector;
 public class LocationManager {
 
   abstract static public class LocationManagerInterface{
-        abstract public boolean addLocation(double latitude, double longitude) throws Exception;
+        abstract public boolean addLocation(double latitude, double longitude, Boolean current) throws Exception;
         abstract public Vector<String> fetchStoredLocations() throws Exception;
         abstract  public  double[] convertToCoordinates(String location) throws Exception;
         abstract  public double[] verifyCoordinates(double latitude, double longitude) throws Exception;
@@ -28,18 +28,44 @@ public class LocationManager {
         dataManager = new DataManager.Data_Manager(cacheManager);
         api = new APIService();
       }
-      public boolean addLocation(double latitude, double longitude) throws Exception
+      public boolean addLocation(double latitude, double longitude,Boolean current) throws Exception
       {
           String  locationDetails;
           try {
-          dataManager.fetchReport(latitude,longitude,"Weather");
-           dataManager.fetchReport(latitude,longitude,"Air");
-           dataManager.fetchReport(latitude,longitude,"Forecast");
-          locationDetails = api.reverseGeoCoding(latitude,longitude);
 
-              cacheManager.storeLocation(locationDetails);
+              if(current)
+              {
+                  if(cacheManager.fetchCurrentLocation()==null)
+                  {
+                      locationDetails = api.reverseGeoCoding(latitude, longitude);
+                      cacheManager.storeLocation(locationDetails, current,true);
+                      return true;
+                  }
 
-              return true;
+                  else
+                  {
+                      throw new Exception("Current Location already set");
+                  }
+
+              }
+
+              else {
+                  if(!findInStoredLocations(latitude,longitude))
+                  {
+                      dataManager.fetchReport(latitude, longitude, "Weather");
+                      dataManager.fetchReport(latitude, longitude, "Air");
+                      dataManager.fetchReport(latitude, longitude, "Forecast");
+                      locationDetails = api.reverseGeoCoding(latitude, longitude);
+
+                      cacheManager.storeLocation(locationDetails, current,false);
+
+                      return true;
+                  }
+                  else {
+                      throw new Exception("Location already exists");
+                  }
+              }
+
           }
           catch (Exception e)
           {
@@ -47,6 +73,27 @@ public class LocationManager {
           }
 
       }
+
+        private boolean findInStoredLocations(double latitude, double longitude) throws Exception
+        {
+            try {
+                Vector<String> storedLocations = cacheManager.fetchStoredLocations();
+                String coordinatesToFind = String.format("Latitude: %.7f, Longitude: %.7f", latitude, longitude);
+                for (String location : storedLocations) {
+                    if (location.contains(coordinatesToFind)) {
+                        return true;
+                    }
+                }
+
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
       public Vector<String> fetchStoredLocations() throws Exception
       {
           try {

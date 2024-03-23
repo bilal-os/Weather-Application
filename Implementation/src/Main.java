@@ -13,9 +13,10 @@ public class Main {
 
         try {
             CacheManager cacheManager = new CacheStorage_TextFile();
+            NotificationManager notificationManager = new NotificationManager(cacheManager);
             DataManager.DataManagerInterface dataManagerInterface = new DataManager.Data_Manager(cacheManager);
             LocationManager.LocationManagerInterface locationManagerInterface = new LocationManager.Location_Manager(cacheManager);
-            TerminalInterface terminalInterface = new TerminalInterface(dataManagerInterface,locationManagerInterface);
+            TerminalInterface terminalInterface = new TerminalInterface(dataManagerInterface,locationManagerInterface,notificationManager);
 
             terminalInterface.showTerminal();
 
