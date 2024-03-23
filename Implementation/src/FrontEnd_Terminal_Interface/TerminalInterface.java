@@ -147,14 +147,10 @@ public class TerminalInterface {
                 double[] coordinates = getCoordinatesByCity(scanner);
                 if (coordinates != null) {
                     try {
-                        if(!findInStoredLocations(coordinates[0],coordinates[1])) {
                             locationManagerInterface.addLocation(coordinates[0], coordinates[1],current);
                             System.out.println("Location added successfully");
                             storedLocations = locationManagerInterface.fetchStoredLocations();
-                        }
-                        else {
-                            System.out.println("Location already exists.");
-                        }
+
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -164,13 +160,10 @@ public class TerminalInterface {
                 double[] coordinates = getCoordinatesByCoordinates(scanner);
                 if (coordinates != null) {
                     try {
-                        if(!findInStoredLocations(coordinates[0],coordinates[1])) {
                         locationManagerInterface.addLocation(coordinates[0], coordinates[1],false);
                         System.out.println("Location added successfully");
-                        storedLocations=locationManagerInterface.fetchStoredLocations();}
-                        else {
-                            System.out.println("Location already exists.");
-                        }
+                        storedLocations=locationManagerInterface.fetchStoredLocations();
+
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -180,16 +173,6 @@ public class TerminalInterface {
         }
     }
 
-    private boolean findInStoredLocations(double latitude, double longitude)
-    {
-        String coordinatesToFind = String.format("Latitude: %.7f, Longitude: %.7f", latitude, longitude);
-        for (String location : storedLocations) {
-            if (location.contains(coordinatesToFind)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void showStoredLocations()
     {

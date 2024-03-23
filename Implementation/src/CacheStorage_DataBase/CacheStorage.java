@@ -96,29 +96,49 @@ public class CacheStorage extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails, Boolean current) throws SQLException {
-        String sql = "INSERT INTO locations (cityName, latitude, longitude, country, state, isCurrent) VALUES (?, ?, ?, ?, ?, ?)";
-        try {
-            JSONArray jsonArray = new JSONArray(locationDetails);
-            JSONObject jsonLocation = jsonArray.getJSONObject(0);
-            String cityName = jsonLocation.getString("name");
-            double latitude = jsonLocation.getDouble("lat");
-            double longitude = jsonLocation.getDouble("lon");
-            String country = jsonLocation.getString("country");
-            String state = jsonLocation.optString("state", null);
-            int isCurrentValue = (current != null && current) ? 1 : 0; // Convert Boolean to int
-            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-                pstmt.setString(1, cityName);
-                pstmt.setDouble(2, latitude);
-                pstmt.setDouble(3, longitude);
-                pstmt.setString(4, country);
-                pstmt.setString(5, state);
-                pstmt.setInt(6, isCurrentValue); // Set isCurrent value
-                int rowsInserted = pstmt.executeUpdate();
-                return rowsInserted > 0;
+    public boolean storeLocation(String locationDetails, Boolean current, Boolean currentExistence) throws SQLException {
+        if (currentExistence) {
+            String updateSql = "UPDATE locations SET isCurrent = 1 WHERE laltitude = ? AND longitude = ?";
+            try {
+                JSONArray jsonArray = new JSONArray(locationDetails);
+                JSONObject jsonLocation = jsonArray.getJSONObject(0);
+                double latitude = jsonLocation.getDouble("lat");
+                double longitude = jsonLocation.getDouble("lon");
+
+                try (PreparedStatement pstmt = connection.prepareStatement(updateSql)) {
+                    pstmt.setDouble(1, latitude);
+                    pstmt.setDouble(2, longitude);
+                    int rowsUpdated = pstmt.executeUpdate();
+                    return rowsUpdated > 0;
+                }
+            } catch (SQLException e) {
+                throw e;
             }
-        } catch (SQLException e) {
-            throw e;
+        } else {
+            String insertSql = "INSERT INTO locations (cityName, latitude, longitude, country, state, isCurrent) VALUES (?, ?, ?, ?, ?, ?)";
+            try {
+                JSONArray jsonArray = new JSONArray(locationDetails);
+                JSONObject jsonLocation = jsonArray.getJSONObject(0);
+                String cityName = jsonLocation.getString("name");
+                double latitude = jsonLocation.getDouble("lat");
+                double longitude = jsonLocation.getDouble("lon");
+                String country = jsonLocation.getString("country");
+                String state = jsonLocation.optString("state", null);
+                int isCurrent = (current != null && current) ? 1 : 0;
+
+                try (PreparedStatement pstmt = connection.prepareStatement(insertSql)) {
+                    pstmt.setString(1, cityName);
+                    pstmt.setDouble(2, latitude);
+                    pstmt.setDouble(3, longitude);
+                    pstmt.setString(4, country);
+                    pstmt.setString(5, state);
+                    pstmt.setInt(6, isCurrent);
+                    int rowsInserted = pstmt.executeUpdate();
+                    return rowsInserted > 0;
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
         }
     }
 

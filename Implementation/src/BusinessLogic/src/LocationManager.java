@@ -32,14 +32,30 @@ public class LocationManager {
       {
           String  locationDetails;
           try {
-          dataManager.fetchReport(latitude,longitude,"Weather");
-           dataManager.fetchReport(latitude,longitude,"Air");
-           dataManager.fetchReport(latitude,longitude,"Forecast");
-          locationDetails = api.reverseGeoCoding(latitude,longitude);
 
-              cacheManager.storeLocation(locationDetails,current);
+              if(!findInStoredLocations(latitude,longitude)) {
 
-              return true;
+                  dataManager.fetchReport(latitude, longitude, "Weather");
+                  dataManager.fetchReport(latitude, longitude, "Air");
+                  dataManager.fetchReport(latitude, longitude, "Forecast");
+                  locationDetails = api.reverseGeoCoding(latitude, longitude);
+
+                  cacheManager.storeLocation(locationDetails, current,false);
+
+                  return true;
+              }
+
+              else if(current)
+              {
+                  locationDetails = api.reverseGeoCoding(latitude, longitude);
+                  cacheManager.storeLocation(locationDetails, current,true);
+                  return true;
+              }
+
+              else {
+                  throw new Exception("Location already exists");
+              }
+
           }
           catch (Exception e)
           {
@@ -47,6 +63,27 @@ public class LocationManager {
           }
 
       }
+
+        private boolean findInStoredLocations(double latitude, double longitude) throws Exception
+        {
+            try {
+                Vector<String> storedLocations = cacheManager.fetchStoredLocations();
+                String coordinatesToFind = String.format("Latitude: %.7f, Longitude: %.7f", latitude, longitude);
+                for (String location : storedLocations) {
+                    if (location.contains(coordinatesToFind)) {
+                        return true;
+                    }
+                }
+
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
       public Vector<String> fetchStoredLocations() throws Exception
       {
           try {

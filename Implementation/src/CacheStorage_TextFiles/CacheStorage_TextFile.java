@@ -93,7 +93,8 @@ public class CacheStorage_TextFile extends CacheManager{
         }
     }
 
-    public boolean storeLocation(String locationDetails,Boolean current) throws Exception {
+    public boolean storeLocation(String locationDetails, Boolean current, Boolean currentExistence) throws Exception {
+
         try {
             JSONArray jsonArray = new JSONArray(locationDetails);
             JSONObject jsonLocation = jsonArray.getJSONObject(0);
@@ -104,29 +105,50 @@ public class CacheStorage_TextFile extends CacheManager{
             String state = jsonLocation.optString("state", null);
 
             File file = openFile(locationsfile);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            StringBuilder fileContents = new StringBuilder();
+            String line;
+            boolean locationExists = false;
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-            StringBuilder locationBuilder = new StringBuilder();
-            locationBuilder.append("City: ").append(cityName).append(", Country: ").append(country).append(", Latitude: ").append(latitude).append(", Longitude: ").append(longitude);
-            if (state != null && !state.isEmpty()) {
-                locationBuilder.append(", State: ").append(state);
+            while ((line = reader.readLine()) != null) {
+                if (line.contains(cityName) && line.contains(String.valueOf(latitude)) && line.contains(String.valueOf(longitude))) {
+                    if (currentExistence) {
+                        // Append ", current" at the end of the existing line
+                        line += ", current";
+                    }
+                    locationExists = true;
+                }
+                fileContents.append(line).append("\n");
             }
+            reader.close();
 
-            if (current != null && current) {
-                locationBuilder.append(", current");
+            if (!locationExists) {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                StringBuilder locationBuilder = new StringBuilder();
+                locationBuilder.append("City: ").append(cityName).append(", Country: ").append(country).append(", Latitude: ").append(latitude).append(", Longitude: ").append(longitude);
+                if (state != null && !state.isEmpty()) {
+                    locationBuilder.append(", State: ").append(state);
+                }
+                if (current != null && current) {
+                    locationBuilder.append(", current");
+                }
+                writer.write(locationBuilder.toString());
+                writer.newLine();
+                writer.close();
+                System.out.println("Location details written successfully.");
+            } else {
+                // Rewrite the file with updated contents
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(fileContents.toString());
+                writer.close();
+                System.out.println("Location details updated successfully.");
             }
-
-            writer.write(locationBuilder.toString());
-            writer.newLine();
-            System.out.println("Location details written successfully.");
-            writer.close();
             return true;
 
         } catch (Exception e) {
             throw e;
         }
     }
-
     public Vector<String> fetchStoredLocations() throws Exception
     {
         Vector<String> locations = new Vector<>();
