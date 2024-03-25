@@ -33,7 +33,7 @@ public class ForeCastWindow {
     }
 
     private void showDailyForecasts() {
-        System.out.println("Forecasts for the Next Five Days:\n");
+        System.out.println("\n                    Forecasts for the Next Five Days:\n");
 
         Map<String, List<WeatherData>> dailyForecasts = groupForecastsByDay();
 
@@ -41,7 +41,7 @@ public class ForeCastWindow {
             String date = entry.getKey();
             List<WeatherData> dailyData = entry.getValue();
 
-            System.out.println("Forecast for " + date + ":");
+            System.out.println("\n                  Forecast for " + date + ":");
             System.out.println("Average Temperature: " + calculateAverageTemperature(dailyData) + "°F");
             System.out.println("Minimum Temperature: " + calculateMinTemperature(dailyData) + "°F");
             System.out.println("Maximum Temperature: " + calculateMaxTemperature(dailyData) + "°F");
@@ -51,6 +51,16 @@ public class ForeCastWindow {
             System.out.println("Total Rainfall: " + calculateTotalRainfall(dailyData) + " mm");
             System.out.println("Total Snowfall: " + calculateTotalSnowfall(dailyData) + " mm");
             System.out.println("Average Cloudiness: " + calculateAverageCloudiness(dailyData) + "%\n");
+        }
+        System.out.println("\n>>Press '1' to get back to the main menu.");
+
+        // Handle user input
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            String userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("1")) {
+                break;
+            }
         }
     }
 

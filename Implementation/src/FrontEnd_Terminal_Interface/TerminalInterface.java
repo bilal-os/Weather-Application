@@ -48,16 +48,19 @@ public class TerminalInterface {
                 {
                     System.out.println(notification);
                 }
-                System.out.println("Press 1: Show Current Weather of a location");
-                System.out.println("Press 2: Show Air Report of a location");
-                System.out.println("Press 3: Show Forecast Report of a location");
-                System.out.println("Press 4 to add a location");
-                System.out.println("Press 5 show stored locations");
-                System.out.println("Press 6 to set a current location");
-                System.out.println("Press 7 to enable notification");
-                System.out.println("Press 8: To exit");
+
+                System.out.println("\n                         1: Show Current Weather of a location");
+                System.out.println("                         2: Show Air Report of a location");
+                System.out.println("                         3: Show Forecast Report of a location");
+                System.out.println("                         4: to add a location");
+                System.out.println("                         5: show stored locations");
+                System.out.println("                         6: to set a current location");
+                System.out.println("                         7: to enable notification");
+                System.out.println("                         8: To exit\n");
+                System.out.println("Select by entering the specified number(1 to 8): ");
                 int option = scanner.nextInt();
-                switch (option) {
+                switch (option)
+                {
                     case 1, 2, 3 -> showReport(scanner, option);
                     case 4 -> addLocation(scanner,false);
                     case 5 -> showStoredLocations();
@@ -83,6 +86,7 @@ public class TerminalInterface {
             System.out.println(e.getMessage());
         }
 
+
     }
 
     private void showReport(Scanner scanner, int option) {
@@ -92,7 +96,7 @@ public class TerminalInterface {
             case 3 -> "Forecast";
             default -> throw new IllegalArgumentException("Invalid report type.");
         };
-        System.out.println("Press 1 to Enter City\nPress 2 to Enter Coordinates");
+        System.out.println(">>Press 1 to Enter City\n>>Press 2 to Enter Coordinates");
         int choice = scanner.nextInt();
         switch (choice) {
             case 1 -> processReport(reportType, getCoordinatesByCity(scanner));
@@ -140,7 +144,7 @@ public class TerminalInterface {
     }
 
     public void addLocation(Scanner scanner,Boolean current) {
-        System.out.println("Press 1 to Enter City\nPress 2 to Enter Coordinates");
+        System.out.println(">>Press 1 to Enter City\n>>Press 2 to Enter Coordinates");
         int choice = scanner.nextInt();
         switch (choice) {
             case 1 -> {
@@ -171,14 +175,35 @@ public class TerminalInterface {
             }
             default -> System.out.println("Invalid option. Please try again.");
         }
+
+        System.out.println("\n>>Press '1' to get back to the main menu.");
+
+        // Handle user input
+        Scanner scanner1 = new Scanner(System.in);
+        while (true) {
+            String userInput = scanner1.nextLine();
+            if (userInput.equalsIgnoreCase("1")) {
+                break;
+            }
+        }
     }
 
 
     public void showStoredLocations()
     {
-        System.out.println("Stored Locations: ");
+        System.out.println("    Stored Locations: ");
         for (String storedLocation : storedLocations) {
             System.out.println(storedLocation);
+        }
+        System.out.println("\n>>Press '1' to get back to the main menu.");
+
+        // Handle user input
+        Scanner scanner1 = new Scanner(System.in);
+        while (true) {
+            String userInput = scanner1.nextLine();
+            if (userInput.equalsIgnoreCase("1")) {
+                break;
+            }
         }
     }
 

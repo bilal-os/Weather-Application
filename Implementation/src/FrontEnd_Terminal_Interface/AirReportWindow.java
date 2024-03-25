@@ -3,6 +3,8 @@ package FrontEnd_Terminal_Interface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Scanner;
+
 public class AirReportWindow {
     private double airIndex;
     private double co;
@@ -62,7 +64,7 @@ public class AirReportWindow {
             formatData(airReport);
 
             // Displaying the air report information
-            System.out.println("Air Report Information:");
+            System.out.println("                     Air Report Information:");
             System.out.println("Air Index: " + airIndex);
             System.out.println("CO: " + co);
             System.out.println("NO: " + no);
@@ -74,6 +76,16 @@ public class AirReportWindow {
             System.out.println("NH3: " + nh3);
         } catch (Exception e) {
             System.err.println("Error occurred while displaying air report: " + e.getMessage());
+        }
+        System.out.println("\n>>Press '1' to get back to the main menu.");
+
+        // Handle user input
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            String userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("1")) {
+                break;
+            }
         }
     }
 

@@ -18,10 +18,10 @@ public class CurrentWeatherWindow {
             weatherData.formatData(weatherReport);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            System.out.println("Report Date: " + dateFormat.format(new Date(weatherData.dt * 1000)));
+            System.out.println("                         Report Date: " + dateFormat.format(new Date(weatherData.dt * 1000)));
 
             // Print basic weather information
-            System.out.println("\nWeather Information for " + weatherData.name);
+            System.out.println("             \nWeather Information for " + weatherData.name);
             System.out.println("Weather conditions: " + weatherData.description);
             System.out.println("Temperature: " + weatherData.temp + "°F");
             System.out.println("Feels like: " + weatherData.feels_like + "°F");
@@ -77,7 +77,7 @@ public class CurrentWeatherWindow {
                 System.out.println("Sunset time: " + new Date(weatherData.sunset * 1000));
             }
             System.out.println("Last update time: " + new Date(weatherData.dt * 1000));
-            System.out.println("Press '1' to exit.");
+            System.out.println("\n>>Press '1' to get back to the main menu.");
 
             // Handle user input
             Scanner scanner = new Scanner(System.in);
