@@ -1,4 +1,4 @@
-package BusinessLogic.src;
+package BusinessLogic;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,6 +1,5 @@
-package FrontEnd_Terminal_Interface;
+package Terminal;
 
-import FrontEnd_Terminal_Interface.WeatherData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;

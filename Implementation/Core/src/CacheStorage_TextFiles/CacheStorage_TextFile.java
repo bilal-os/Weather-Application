@@ -1,17 +1,16 @@
 package CacheStorage_TextFiles;
-import BusinessLogic.src.CacheManager;
+import BusinessLogic.CacheManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.util.Vector;
 
 public class CacheStorage_TextFile extends CacheManager{
-    private   String weatherReportsfile = "src/CacheStorage_TextFiles/weatherReports.txt";
-    private   String airReportsfile = "src/CacheStorage_TextFiles/airReports.txt";
-    private   String forecastReportsfile = "src/CacheStorage_TextFiles/forecastReports.txt";
-    private   String locationsfile = "src/CacheStorage_TextFiles/locations.txt";
+    private   String weatherReportsfile = "weatherReports.txt";
+    private   String airReportsfile = "airReports.txt";
+    private   String forecastReportsfile = "forecastReports.txt";
+    private   String locationsfile = "locations.txt";
 
     private File openFile(String filename) throws Exception
     {

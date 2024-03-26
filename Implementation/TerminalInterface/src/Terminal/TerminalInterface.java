@@ -1,8 +1,9 @@
-package FrontEnd_Terminal_Interface;
+package Terminal;
 
-import BusinessLogic.src.DataManager;
-import BusinessLogic.src.LocationManager;
-import BusinessLogic.src.NotificationManager;
+import BusinessLogic.DataManager;
+import BusinessLogic.LocationManager;
+import BusinessLogic.NotificationManager;
+
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -35,7 +36,7 @@ public class TerminalInterface {
         storedLocations = locationManagerInterface.fetchStoredLocations();}
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 

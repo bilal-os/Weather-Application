@@ -1,6 +1,5 @@
-package BusinessLogic.src;
+package BusinessLogic;
 
-import java.sql.SQLException;
 import java.util.Vector;
 
 abstract public class CacheManager {
