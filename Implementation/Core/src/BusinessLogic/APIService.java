@@ -15,7 +15,8 @@ public class APIService {
 
     private String buildURL(String baseURL, double latitude, double longitude) {
 
-        return baseURL + "lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
+          return baseURL + "lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey + "&units=metric";
+
     }
 
     private String fetchData(String urlString) throws Exception {
