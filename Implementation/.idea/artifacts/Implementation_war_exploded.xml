@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Implementation:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Implementation_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Implementation" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/json-java.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/mssql-jdbc-12.6.1.jre8.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/mssql-jdbc-12.6.1.jre11.jar" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="Implementation/web/Web" />
+      <element id="javaee-facet-resources" facet="Implementation/web/Web2" />
+    </root>
+  </artifact>
+</component>
