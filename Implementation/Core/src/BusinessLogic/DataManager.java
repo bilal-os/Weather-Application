@@ -1,4 +1,4 @@
-package BusinessLogic.src;
+package BusinessLogic;
 
 import java.util.Vector;
 

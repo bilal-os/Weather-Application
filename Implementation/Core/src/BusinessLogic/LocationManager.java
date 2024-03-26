@@ -1,4 +1,4 @@
-package BusinessLogic.src;
+package BusinessLogic;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

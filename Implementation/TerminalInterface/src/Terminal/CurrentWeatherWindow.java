@@ -1,4 +1,4 @@
-package FrontEnd_Terminal_Interface;
+package Terminal;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package FrontEnd_Terminal_Interface;
+package Terminal;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

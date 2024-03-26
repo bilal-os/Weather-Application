@@ -6,6 +6,7 @@
         <descriptors>
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/FrontEnd_GUI_Interface/src/main/webapp/web/WEB-INF/web.xml" />
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/FrontEnd_GUI_Interface/src/main/webapp/WEB-INF/web.xml" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/dummy/FrontEnd_GUI_Interface/src/main/webapp/web/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/FrontEnd_GUI_Interface/src/main/webapp" relative="/" />
@@ -63,5 +64,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="module" module-name="Core" />
+    <orderEntry type="module" module-name="TerminalInterface" />
   </component>
 </module>

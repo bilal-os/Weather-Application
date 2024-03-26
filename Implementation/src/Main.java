@@ -1,18 +1,16 @@
-import BusinessLogic.src.*;
-
-import java.net.URLEncoder;
-import java.util.Vector;
-
+import BusinessLogic.CacheManager;
+import BusinessLogic.DataManager;
+import BusinessLogic.LocationManager;
+import BusinessLogic.NotificationManager;
 import CacheStorage_DataBase.CacheStorage;
-import java.sql.*;
 import CacheStorage_TextFiles.CacheStorage_TextFile;
-import FrontEnd_Terminal_Interface.TerminalInterface;
+import Terminal.TerminalInterface;
 
 public class Main {
     public static void main(String[] args) {
 
         try {
-            CacheManager cacheManager = new CacheStorage_TextFile();
+            CacheManager cacheManager = new CacheStorage();
             NotificationManager notificationManager = new NotificationManager(cacheManager);
             DataManager.DataManagerInterface dataManagerInterface = new DataManager.Data_Manager(cacheManager);
             LocationManager.LocationManagerInterface locationManagerInterface = new LocationManager.Location_Manager(cacheManager);
