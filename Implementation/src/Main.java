@@ -3,7 +3,6 @@ import BusinessLogic.DataManager;
 import BusinessLogic.LocationManager;
 import BusinessLogic.NotificationManager;
 import CacheStorage_DataBase.CacheStorage;
-import CacheStorage_TextFiles.CacheStorage_TextFile;
 import Terminal.TerminalInterface;
 
 public class Main {

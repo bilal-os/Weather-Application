@@ -1,6 +1,7 @@
 'use strict';
 import { fetchData, url } from "./api.js";
 import * as module from "./module.js";
+
 /**
  * 
  * @param {NodeList} elements Elemetns node array

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.sql.*;
 import java.util.Vector;
 
+
 public class CacheStorage extends CacheManager{
     private Connection connection;
     private String weatherTable = "WeatherReports";

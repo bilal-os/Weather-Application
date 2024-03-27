@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.util.Vector;
 
-public class CacheStorage_TextFile extends CacheManager{
+public class CacheStorage extends CacheManager{
     private   String weatherReportsfile = "weatherReports.txt";
     private   String airReportsfile = "airReports.txt";
     private   String forecastReportsfile = "forecastReports.txt";
