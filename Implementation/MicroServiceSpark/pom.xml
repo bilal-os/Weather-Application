@@ -25,6 +25,13 @@
             <version>9.4.0.jre11</version> <!-- or the latest version -->
         </dependency>
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version> <!-- Replace with the latest version -->
+        </dependency>
+
+
     </dependencies>
 
     <properties>

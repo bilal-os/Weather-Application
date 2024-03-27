@@ -21,6 +21,15 @@ export const url ={
     reverseGeo(lat,lon){
         return `https://api.openweathermap.org/geo/1.0/reverse?${lat}&${lon}&limit=5`
     },
+
+    addLocation(lat,lon,curr){
+        return `http://localhost:4567/addlocation?${lat}&${lon}&${curr}`
+    },
+
+    storedLocations() {
+        return 'http://localhost:4567/locations'
+    },
+
     /**
      * @param {string} query search query e.g. :"london" , "New Yourk"  
      */

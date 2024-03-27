@@ -4,13 +4,17 @@ import BusinessLogic.*;
 import CacheStorage_DataBase.CacheStorage;
 import CacheStorage_TextFiles.CacheStorage_TextFile;
 
+import java.util.Vector;
+
 
 public class Main {
     public static void main(String[] args) {
         enableCORS("*","*","*");
         try {
-            CacheManager cacheManager = new CacheStorage_TextFile();
+            CacheManager cacheManager = new CacheStorage();
             DataManager.DataManagerInterface dataManagerInterface = new DataManager.Data_Manager(cacheManager);
+            LocationManager.LocationManagerInterface locationManagerInterface = new LocationManager.Location_Manager(cacheManager);
+
 
             get("/currentWeather", (req, res) -> {
                 double latitude = Double.parseDouble(req.queryParams("lat"));
@@ -31,6 +35,32 @@ public class Main {
                 double longitude = Double.parseDouble(req.queryParams("lon"));
                 return dataManagerInterface.fetchReport(latitude,longitude,"Forecast");
 
+            });
+            get("/locations", (req, res) -> {
+                Vector<String> locations = locationManagerInterface.fetchStoredLocations();
+                // Create a StringBuilder to efficiently build the final string
+                StringBuilder combinedString = new StringBuilder();
+
+                // Iterate over each string in the vector and append it to the StringBuilder
+                for (String location : locations) {
+                    combinedString.append(location).append("\n"); // Add a new line after each location
+                }
+
+                // Convert the StringBuilder to a String
+                String finalString = combinedString.toString();
+
+                // Set the content type to plain text
+                res.type("text/plain");
+
+                // Return the final combined string
+                return finalString;
+            });
+
+            get("/addlocation",(req,res) -> {
+                double latitude = Double.parseDouble(req.queryParams("lat"));
+                double longitude = Double.parseDouble(req.queryParams("lon"));
+                boolean current = Boolean.parseBoolean(req.queryParams("curr"));
+               return locationManagerInterface.addLocation(latitude,longitude,current);
             });
 
         }
