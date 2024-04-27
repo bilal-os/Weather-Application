@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Core/Core.iml" filepath="$PROJECT_DIR$/Core/Core.iml" />
       <module fileurl="file://$PROJECT_DIR$/Frontend/GUIInterface.iml" filepath="$PROJECT_DIR$/Frontend/GUIInterface.iml" />
       <module fileurl="file://$PROJECT_DIR$/Implementation.iml" filepath="$PROJECT_DIR$/Implementation.iml" />
       <module fileurl="file://$PROJECT_DIR$/TerminalInterface/TerminalInterface.iml" filepath="$PROJECT_DIR$/TerminalInterface/TerminalInterface.iml" />

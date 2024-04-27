@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="BusinessLogic" />
         <module name="CacheStorage_DataBase" />
+        <module name="WeatherApplication" />
         <module name="MicroServiceSpark" />
         <module name="CacheStorage_TextFiles" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Main" target="21" />
       <module name="MicroService" target="21" />
     </bytecodeTargetLevel>
   </component>
