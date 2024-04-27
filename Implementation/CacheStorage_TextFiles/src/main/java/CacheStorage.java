@@ -1,4 +1,3 @@
-package CacheStorage_TextFiles;
 import BusinessLogic.CacheManager;
 import org.json.JSONArray;
 import org.json.JSONObject;

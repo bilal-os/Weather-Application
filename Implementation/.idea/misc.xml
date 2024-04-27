@@ -7,10 +7,16 @@
         <option value="$PROJECT_DIR$/MicroService/pom.xml" />
         <option value="$PROJECT_DIR$/TerminalInterface/MicroServiceSpark/pom.xml" />
         <option value="$PROJECT_DIR$/MicroServiceSpark/pom.xml" />
+        <option value="$PROJECT_DIR$/BusinessLogic/pom.xml" />
+        <option value="$PROJECT_DIR$/CacheStorage_DataBase/pom.xml" />
+        <option value="$PROJECT_DIR$/CacheStorage_TextFiles/pom.xml" />
+        <option value="$PROJECT_DIR$/Main/pom.xml" />
+        <option value="$PROJECT_DIR$/WeatherApplication/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/Main/pom.xml" />
         <option value="$PROJECT_DIR$/MicroService/pom.xml" />
       </set>
     </option>

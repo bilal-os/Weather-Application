@@ -64,7 +64,8 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
-    <orderEntry type="module" module-name="Core" />
     <orderEntry type="module" module-name="TerminalInterface" />
+    <orderEntry type="module" module-name="BusinessLogic" />
+    <orderEntry type="module" module-name="CacheStorage_DataBase" />
   </component>
 </module>
