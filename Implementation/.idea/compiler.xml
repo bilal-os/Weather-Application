@@ -7,15 +7,20 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="BusinessLogic" />
-        <module name="CacheStorage_DataBase" />
-        <module name="WeatherApplication" />
         <module name="MicroServiceSpark" />
+        <module name="Weather_Application" />
+        <module name="JSP_Frontend" />
         <module name="CacheStorage_TextFiles" />
+        <module name="CacheStorage_DataBase" />
+        <module name="TomCatServer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="JSPFrontend" target="21" />
       <module name="Main" target="21" />
       <module name="MicroService" target="21" />
+      <module name="WeatherApplciation" target="21" />
+      <module name="WeatherApplication" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

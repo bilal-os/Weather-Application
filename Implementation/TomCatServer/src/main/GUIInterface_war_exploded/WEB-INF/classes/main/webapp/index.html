@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GQRS2F1JVF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-GQRS2F1JVF');
+    </script>
+        
+    <title>Nimbus</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Nimbus">
+    <meta name="description" content="Explore accurate and real-time weather information for cities around the world with Nimbus. Get current weather conditions, 5-day forecasts, wind speed, sunrise and sunset times, air quality, humidity, and more.  Stay informed about weather changes effortlessly. Visit Nimbus now!">
+    
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="module" src="app.js"></script>
+    <script type="module" src="route.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="" class="logo">
+                <img src="assets/images/logo.png" alt="logo">
+            </a>
+            
+          
+            <div class="header-actions">
+                
+                <a href="home.html" class="btn-primary has-state" data-add-location-btn>
+                    <span class="material-symbols-rounded">
+                        explore
+                        </span>
+                    <span class="span">Explore</span>
+                </a>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <section class="section current-weather eighty" aria-label="current weather" data-current-weather=""><div class="card card-lg current-weather-card">
+            <h2 class="title-2 card-title">Now</h2>
+            <div class="weapper">
+                <p class="heading">25°<sup>c</sup></p>
+                <img src="assets/images/weather_icons/50d.png" width="64" height="64" alt="smoke" class="weather-icon">
+            </div>
+            <p class="body-3">smoke</p>
+            <ul class="meta-list">
+                <li class="meta-item">
+                    <span class="m-icon">calendar_today</span>
+                    <p class="title-3 meta-text">Tuesday 25 Mar</p>
+                </li>
+                <li class="meta-item">
+                    <span class="m-icon">location_on</span>
+                    <p class="title-3 meta-text" data-location="">Lahore, PK</p>
+                </li>
+            </ul>
+        </div></section>
+
+        <section class="section current-weather eighty" aria-label="current weather" data-current-weather=""><div class="card card-lg current-weather-card">
+            <h2 class="title-2 card-title">Now</h2>
+            <div class="weapper">
+                <p class="heading">35°<sup>c</sup></p>
+                <img src="assets/images/weather_icons/50d.png" width="64" height="64" alt="smoke" class="weather-icon">
+            </div>
+            <p class="body-3">Fog</p>
+            <ul class="meta-list">
+                <li class="meta-item">
+                    <span class="m-icon">calendar_today</span>
+                    <p class="title-3 meta-text">Tuesday 25 Mar</p>
+                </li>
+                <li class="meta-item">
+                    <span class="m-icon">location_on</span>
+                    <p class="title-3 meta-text" data-location="">Karachi, PK</p>
+                </li>
+            </ul>
+        </div></section>
+    </main>
+    <!-- 404 Section -->
+    <section class="error-content" data-error-content>
+        <h2 class="heading">404</h2>
+        <p class="body-1">Page not found!</p>
+        <a href="" class="btn-primary">
+            <span class="span">Go Home</span>
+        </a>
+    </section>
+</body>
+</html>

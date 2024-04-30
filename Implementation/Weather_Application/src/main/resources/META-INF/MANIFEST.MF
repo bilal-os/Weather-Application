@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Main-Class: Main
+Class-Path: BusinessLogic.jar json-20231013.jar CacheStorage_DataBase.ja
+ r ecj-3.12.3.jar TomCatServer.jar json-20231013.jar tomcat-api-8.5.38.j
+ ar tomcat-juli-8.5.38.jar tomcat-util-8.5.38.jar tomcat-el-api-8.5.38.j
+ ar tomcat-jasper-8.5.38.jar tomcat-jsp-api-8.5.38.jar tomcat-embed-el-8
+ .5.38.jar tomcat-jasper-el-8.5.38.jar tomcat-util-scan-8.5.38.jar tomca
+ t-embed-core-8.5.38.jar tomcat-servlet-api-8.5.38.jar tomcat-embed-jasp
+ er-8.5.38.jar tomcat-annotations-api-8.5.38.jar mssql-jdbc-12.6.1.jre11
+ .jar json-java.jar BusinessLogic.jar TerminalInterface.jar BusinessLogi
+ c.jar json-20231013.jar json-20231013.jar BusinessLogic.jar json-202103
+ 07.jar slf4j-api-1.7.21.jar spark-core-2.9.4.jar MicroServiceSpark.jar 
+ slf4j-simple-1.7.21.jar mssql-jdbc-9.4.0.jre11.jar javax.servlet-api-3.
+ 1.0.jar jetty-io-9.4.48.v20220622.jar jetty-xml-9.4.48.v20220622.jar je
+ tty-http-9.4.48.v20220622.jar jetty-util-9.4.48.v20220622.jar jetty-cli
+ ent-9.4.48.v20220622.jar jetty-server-9.4.48.v20220622.jar jetty-webapp
+ -9.4.48.v20220622.jar jetty-servlet-9.4.48.v20220622.jar websocket-api-
+ 9.4.48.v20220622.jar jetty-security-9.4.48.v20220622.jar jetty-util-aja
+ x-9.4.48.v20220622.jar websocket-client-9.4.48.v20220622.jar websocket-
+ common-9.4.48.v20220622.jar websocket-server-9.4.48.v20220622.jar webso
+ cket-servlet-9.4.48.v20220622.jar BusinessLogic.jar json-20231013.jar C
+ acheStorage_TextFiles.jar
+

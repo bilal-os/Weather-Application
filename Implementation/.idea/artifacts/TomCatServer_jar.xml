@@ -1,0 +1,25 @@
+<component name="ArtifactManager">
+  <artifact name="TomCatServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TomCatServer_jar</output-path>
+    <root id="root">
+      <element id="archive" name="TomCatServer.jar">
+        <element id="module-output" name="TomCatServer" />
+      </element>
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jasper-el:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-jasper:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-annotations-api:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-el-api:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jasper:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-servlet-api:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jsp-api:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:8.5.38" />
+      <element id="library" level="project" name="Maven: org.json:json:20231013" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-juli:8.5.38" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-api:8.5.38" />
+      <element id="library" level="project" name="Maven: org.eclipse.jdt:ecj:3.12.3" />
+      <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util-scan:8.5.38" />
+    </root>
+  </artifact>
+</component>

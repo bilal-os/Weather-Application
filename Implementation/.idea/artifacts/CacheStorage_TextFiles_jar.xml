@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="CacheStorage_TextFiles:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CacheStorage_TextFiles_jar</output-path>
+    <root id="root">
+      <element id="archive" name="CacheStorage_TextFiles.jar">
+        <element id="module-output" name="CacheStorage_TextFiles" />
+      </element>
+      <element id="library" level="project" name="Maven: org.json:json:20231013" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/BusinessLogic_jar/BusinessLogic.jar" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="TerminalInterface:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TerminalInterface_jar</output-path>
+    <root id="root">
+      <element id="archive" name="TerminalInterface.jar">
+        <element id="module-output" name="TerminalInterface" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/json-java.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/BusinessLogic_jar/BusinessLogic.jar" />
+    </root>
+  </artifact>
+</component>

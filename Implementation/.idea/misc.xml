@@ -12,12 +12,17 @@
         <option value="$PROJECT_DIR$/CacheStorage_TextFiles/pom.xml" />
         <option value="$PROJECT_DIR$/Main/pom.xml" />
         <option value="$PROJECT_DIR$/WeatherApplication/pom.xml" />
+        <option value="$PROJECT_DIR$/WeatherApplciation1/pom.xml" />
+        <option value="$PROJECT_DIR$/JSP_Frontend/pom.xml" />
+        <option value="$PROJECT_DIR$/TomCatServer/pom.xml" />
+        <option value="$PROJECT_DIR$/Weather_Application/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/Main/pom.xml" />
         <option value="$PROJECT_DIR$/MicroService/pom.xml" />
+        <option value="$PROJECT_DIR$/WeatherApplication/pom.xml" />
       </set>
     </option>
   </component>

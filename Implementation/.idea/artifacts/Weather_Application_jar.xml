@@ -1,0 +1,62 @@
+<component name="ArtifactManager">
+  <artifact name="Weather_Application:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Weather_Application_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Weather_Application.jar">
+        <element id="module-output" name="Weather_Application" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CacheStorage_DataBase_jar/BusinessLogic.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CacheStorage_DataBase_jar/json-20231013.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CacheStorage_DataBase_jar/CacheStorage_DataBase.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/ecj-3.12.3.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/TomCatServer.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/json-20231013.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-api-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-juli-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-util-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-el-api-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-jasper-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-jsp-api-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-embed-el-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-jasper-el-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-util-scan-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-embed-core-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-servlet-api-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-embed-jasper-8.5.38.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TomCatServer_jar/tomcat-annotations-api-8.5.38.jar" />
+      <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TerminalInterface_jar/json-java.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TerminalInterface_jar/BusinessLogic.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/TerminalInterface_jar/TerminalInterface.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/BusinessLogic_jar/BusinessLogic.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/BusinessLogic_jar/json-20231013.jar" />
+      <element id="library" level="project" name="Maven: org.json:json:20231013" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/BusinessLogic.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/json-20210307.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/slf4j-api-1.7.21.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/spark-core-2.9.4.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/MicroServiceSpark.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/slf4j-simple-1.7.21.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/mssql-jdbc-9.4.0.jre11.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/javax.servlet-api-3.1.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-io-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-xml-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-http-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-util-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-client-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-server-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-webapp-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-servlet-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/websocket-api-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-security-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/jetty-util-ajax-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/websocket-client-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/websocket-common-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/websocket-server-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/MicroServiceSpark_jar/websocket-servlet-9.4.48.v20220622.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CacheStorage_TextFiles_jar/BusinessLogic.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CacheStorage_TextFiles_jar/json-20231013.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CacheStorage_TextFiles_jar/CacheStorage_TextFiles.jar" />
+    </root>
+  </artifact>
+</component>
