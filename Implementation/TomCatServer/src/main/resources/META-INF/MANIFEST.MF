@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Main-Class: Main
-Class-Path: tomcat-jasper-el-8.5.38.jar tomcat-embed-core-8.5.38.jar tom
- cat-embed-jasper-8.5.38.jar tomcat-annotations-api-8.5.38.jar tomcat-el
- -api-8.5.38.jar tomcat-jasper-8.5.38.jar tomcat-servlet-api-8.5.38.jar 
- tomcat-jsp-api-8.5.38.jar tomcat-embed-el-8.5.38.jar json-20231013.jar 
- tomcat-util-8.5.38.jar tomcat-juli-8.5.38.jar tomcat-api-8.5.38.jar ecj
- -3.12.3.jar tomcat-util-scan-8.5.38.jar
+Class-Path: tomcat-embed-jasper-8.5.38.jar tomcat-api-8.5.38.jar tomcat-
+ annotations-api-8.5.38.jar ecj-3.12.3.jar tomcat-el-api-8.5.38.jar tomc
+ at-jasper-el-8.5.38.jar tomcat-util-8.5.38.jar tomcat-juli-8.5.38.jar t
+ omcat-embed-el-8.5.38.jar tomcat-jasper-8.5.38.jar tomcat-jsp-api-8.5.3
+ 8.jar tomcat-util-scan-8.5.38.jar json-20231013.jar tomcat-embed-core-8
+ .5.38.jar tomcat-servlet-api-8.5.38.jar
 

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="BusinessLogic1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/classes/BusinessLogic.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

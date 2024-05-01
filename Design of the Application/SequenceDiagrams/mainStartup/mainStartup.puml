@@ -1,0 +1,30 @@
+@startuml
+participant Main.java
+participant TerminalInterface
+participant CacheStorageDataBase
+participant CacheStorageTextFile
+participant MicroServiceSpark
+participant TomCatServer
+
+opt args[0]=="DataBase"
+    Main.java -> CacheStorageDataBase: new CacheStorageDataBase()
+end
+
+opt args[0]=="TextFile"
+    Main.java -> CacheStorageTextFile: new CacheStorageDataBase()
+end
+
+opt args[1]=="GUI"
+    Main.java -> MicroServiceSpark: new MicroServiceSpark()
+    MicroServiceSpark->MicroServiceSpark: startService()
+    Main.java -> TomCatServer: new TomCatServer()
+    TomCatServer->TomCatServer: startServer()
+end
+
+opt args[1]=="Terminal"
+    Main.java -> TerminalInterface: new TerminalInterface()
+    TerminalInterface->TerminalInterface: startInterface()
+end
+
+
+@enduml

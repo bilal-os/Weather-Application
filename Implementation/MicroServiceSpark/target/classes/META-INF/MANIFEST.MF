@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Main-Class: 
-Class-Path: slf4j-api-1.7.21.jar jetty-util-ajax-9.4.48.v20220622.jar je
- tty-security-9.4.48.v20220622.jar mssql-jdbc-9.4.0.jre11.jar jetty-serv
- er-9.4.48.v20220622.jar jetty-webapp-9.4.48.v20220622.jar websocket-ser
- ver-9.4.48.v20220622.jar jetty-xml-9.4.48.v20220622.jar slf4j-simple-1.
- 7.21.jar jetty-servlet-9.4.48.v20220622.jar websocket-client-9.4.48.v20
- 220622.jar websocket-servlet-9.4.48.v20220622.jar json-20210307.jar jav
- ax.servlet-api-3.1.0.jar websocket-common-9.4.48.v20220622.jar Business
- Logic.jar jetty-http-9.4.48.v20220622.jar websocket-api-9.4.48.v2022062
- 2.jar jetty-client-9.4.48.v20220622.jar jetty-io-9.4.48.v20220622.jar j
- etty-util-9.4.48.v20220622.jar spark-core-2.9.4.jar
+Class-Path: slf4j-simple-1.7.21.jar spark-core-2.9.4.jar mssql-jdbc-9.4.
+ 0.jre11.jar jetty-io-9.4.48.v20220622.jar websocket-api-9.4.48.v2022062
+ 2.jar jetty-util-ajax-9.4.48.v20220622.jar websocket-server-9.4.48.v202
+ 20622.jar jetty-server-9.4.48.v20220622.jar slf4j-api-1.7.21.jar jetty-
+ webapp-9.4.48.v20220622.jar jetty-util-9.4.48.v20220622.jar jetty-servl
+ et-9.4.48.v20220622.jar websocket-common-9.4.48.v20220622.jar json-2021
+ 0307.jar jetty-xml-9.4.48.v20220622.jar jetty-client-9.4.48.v20220622.j
+ ar websocket-servlet-9.4.48.v20220622.jar websocket-client-9.4.48.v2022
+ 0622.jar jetty-security-9.4.48.v20220622.jar jetty-http-9.4.48.v2022062
+ 2.jar javax.servlet-api-3.1.0.jar
 

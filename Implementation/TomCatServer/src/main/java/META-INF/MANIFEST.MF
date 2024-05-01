@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: Main
+Class-Path: json-java.jar mssql-jdbc-12.6.1.jre8.jar mssql-jdbc-12.6.1.j
+ re11.jar json-20231013.jar servlet.jar servlet.jar
+

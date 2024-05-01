@@ -9,24 +9,20 @@ import org.example.MicroService;
 
 public class Main {
     public static void main(String[] args) {
-
+        Process tomcatProcess = null;
+        if(args.length == 0) {
+            args = new String[]{"textfile", "gui"};
+        }
         try {
-            if (args.length == 0) {
-                // Set default arguments
-                args = new String[]{"Database", "GUI"};
-            }
-            CacheManager cacheManager=null;
+            CacheManager cacheManager = null;
 
-            if(args[0].equalsIgnoreCase("Database"))
-            {
+            if (args[0].equalsIgnoreCase("Database")) {
                 cacheManager = new CacheStorage_Database();
-            }
-
-            else if(args[0].equalsIgnoreCase("TextFile"))
-            {
+            } else if (args[0].equalsIgnoreCase("TextFile")) {
                 cacheManager = new CacheStorage_TextFiles();
             }
-            if(args[1].equalsIgnoreCase("Terminal")) {
+
+            if (args[1].equalsIgnoreCase("Terminal")) {
                 NotificationManager notificationManager = new NotificationManager(cacheManager);
                 DataManager.DataManagerInterface dataManagerInterface = new DataManager.Data_Manager(cacheManager);
                 LocationManager.LocationManagerInterface locationManagerInterface = new LocationManager.Location_Manager(cacheManager);
@@ -39,17 +35,23 @@ public class Main {
                 System.out.println("Micro Service Started");
 
                 String command = "java -jar TomCatServer.jar";
-                ProcessBuilder processBuilder = new ProcessBuilder(command.split("\\s+"));
-                Process process = processBuilder.start();
 
-                System.out.println("Application deployed at localhost:8080");
+                // Create ProcessBuilder with the command
+                ProcessBuilder processBuilder = new ProcessBuilder(command.split("\\s+"));
+
+                System.out.println("Application Deployed at https://localhost:8080/");
+                // Start the process
+                tomcatProcess = processBuilder.start();
+
             }
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            // Terminate the TomCatServer.jar process if it was started
+            if (tomcatProcess != null) {
+                tomcatProcess.destroy();
+            }
         }
-
     }
 }

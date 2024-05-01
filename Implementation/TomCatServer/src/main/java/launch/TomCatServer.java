@@ -60,12 +60,12 @@ public class TomCatServer {
 
         // Declare an alternative location for your "WEB-INF/classes" dir
         // Servlet 3.0 annotation will work
-        File additionWebInfClassesFolder = new File(root.getAbsolutePath(), "target/classes");
+        File additionWebInfClassesFolder = new File(root.getAbsolutePath(), "src/main/GUIInterface_war_exploded/target/classes");
         WebResourceRoot resources = new StandardRoot(ctx);
 
         WebResourceSet resourceSet;
         if (additionWebInfClassesFolder.exists()) {
-            resourceSet = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder.getAbsolutePath(), "/");
+            resourceSet = new DirResourceSet(resources, "src/main/GUIInterface_war_exploded/WEB-INF/classes", additionWebInfClassesFolder.getAbsolutePath(), "/");
             System.out.println("loading WEB-INF resources from as '" + additionWebInfClassesFolder.getAbsolutePath() + "'");
         } else {
             resourceSet = new EmptyResourceSet(resources);

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="servlet1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/classes/main/webapp/WEB-INF/lib/servlet.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

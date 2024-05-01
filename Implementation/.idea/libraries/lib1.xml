@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/lib/json-java.jar!/" />
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/lib/mssql-jdbc-12.6.1.jre8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/lib/mssql-jdbc-12.6.1.jre11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/lib/json-20231013.jar!/" />
+      <root url="jar://$PROJECT_DIR$/TomCatServer/src/main/GUIInterface_war_exploded/WEB-INF/lib/servlet.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
